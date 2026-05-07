@@ -862,8 +862,8 @@ async function load(){
     const resp = await fetch(getSheetUrl()+'?t='+Date.now());
     const data = await resp.json();
     if(Array.isArray(data) && data.length>0){
-      posts = data;
-      setSyncStatus('ok','Calendario actualizado');
+      posts = normalizePostsFromSheet(data);
+      setSyncStatus('ok','Calendario actualizado — '+posts.length+' piezas');
       localStorage.setItem(LS_SYNC, new Date().toLocaleString('es-AR'));
     } else {
       // Sheet vacío — cargar datos compilados y subirlos
@@ -901,6 +901,46 @@ async function reset(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{FMTS.forEach(f=>activeFmts.add(f.key));load();});
+
+
+// ═══ NORMALIZAR POSTS DEL SHEET ═══════════════════════════
+// Los datos del Sheet vienen como strings — los normalizamos
+// para que el calendario los reconozca correctamente
+function normalizePostsFromSheet(data){
+  return data.map(p => {
+    // pauta y kpis pueden venir como string JSON
+    let pauta = p.pauta;
+    let kpis  = p.kpis;
+    if(typeof pauta === 'string'){
+      try{ pauta = JSON.parse(pauta); }catch(e){ pauta = {on:false}; }
+    }
+    if(!pauta || typeof pauta !== 'object') pauta = {on:false};
+    if(typeof kpis === 'string'){
+      try{ kpis = JSON.parse(kpis); }catch(e){ kpis = {}; }
+    }
+    if(!kpis || typeof kpis !== 'object') kpis = {};
+    return {
+      id:          String(p.id||'').trim(),
+      date:        String(p.date||'').trim(),
+      fmt:         String(p.fmt||'reel').trim(),
+      pilar:       String(p.pilar||'story').trim(),
+      serie:       String(p.serie||'story').trim(),
+      title:       String(p.title||'').trim(),
+      hook:        String(p.hook||'').trim(),
+      copy:        String(p.copy||'').trim(),
+      cta:         String(p.cta||'').trim(),
+      channel:     String(p.channel||'').trim(),
+      status:      String(p.status||'pending').trim(),
+      approval:    String(p.approval||'none').trim(),
+      etapa:       String(p.etapa||'').trim(),
+      responsable: String(p.responsable||'').trim(),
+      link:        String(p.link||'').trim(),
+      notes:       String(p.notes||'').trim(),
+      pauta,
+      kpis,
+    };
+  }).filter(p => p.id && p.id !== '');
+}
 
 // ═══ CONFIG / SHEETS UI ═══════════════════════════════════
 const LS_URL  = 'fl_sheet_url';
@@ -950,8 +990,8 @@ async function cfgConnect(){
     const data = await resp.json();
     if(Array.isArray(data)){
       if(data.length > 0){
-        posts = data;
-        setSyncStatus('ok','Conectado ✓ — '+data.length+' piezas cargadas');
+        posts = normalizePostsFromSheet(data);
+        setSyncStatus('ok','Conectado ✓ — '+posts.length+' piezas cargadas');
       } else {
         // Sheet vacío — subir datos locales y mantener los posts actuales
         setSyncStatus('loading','Sheet vacío — subiendo '+posts.length+' piezas...');
@@ -995,8 +1035,8 @@ async function cfgPullRemote(){
     const resp = await fetch(url+'?t='+Date.now());
     const data = await resp.json();
     if(Array.isArray(data) && data.length > 0){
-      posts = data;
-      setSyncStatus('ok',data.length+' piezas cargadas del Sheet ✓');
+      posts = normalizePostsFromSheet(data);
+      setSyncStatus('ok',posts.length+' piezas cargadas del Sheet ✓');
       const now = new Date().toLocaleString('es-AR');
       localStorage.setItem(LS_SYNC, now);
       document.getElementById('cfgLastSync').textContent = 'Última sincronización: '+now;
