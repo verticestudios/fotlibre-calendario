@@ -795,7 +795,7 @@ function printCal(){
 }
 
 // ═══ GOOGLE SHEETS SYNC ═══════════════════════════════════
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbys1HKjDTkdx6xBmX7LCNyTqTSYyIi-_VmOhancCoul9j76YvH1yf-Z-W8B8OOHwsCIAQ/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwkItSBxtfqys0RcZk431wWBPGgcOzz_3B1-dtceV3CJ04ZvRVtQ_bAaNcXW0CZiVDm/exec";
 
 // indicador de estado de sync
 function setSyncStatus(state, msg){
@@ -976,7 +976,15 @@ function normalizePostsFromSheet(data){
 const LS_URL  = 'fl_sheet_url';
 const LS_SYNC = 'fl_last_sync';
 
-function getSheetUrl(){ return localStorage.getItem(LS_URL)||SHEET_URL; }
+function getSheetUrl(){
+  const saved = localStorage.getItem(LS_URL);
+  if(!saved){
+    // Primera vez — guardar la URL por defecto automáticamente
+    localStorage.setItem(LS_URL, SHEET_URL);
+    return SHEET_URL;
+  }
+  return saved;
+}
 
 function openConfig(){
   const url = getSheetUrl();
