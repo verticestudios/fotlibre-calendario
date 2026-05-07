@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOT Libre — Calendario Editorial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#007f88;--teal2:#00a8b4;--petrol:#324d54;--deep:#1e3338;--darker:#131f22;--black:#0a1214;--gray:#192a2f;--mid:#1f3338;--line:#2a4048;--white:#fff;--off:#cdd8db;--muted:#5a7a82;--sage:#b1b297}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Archivo',sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:400;background:rgba(10,18,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.h-left{display:flex;align-items:center;gap:14px}
+.h-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.h-logo-text{font-size:15px;font-weight:900;letter-spacing:3px;color:var(--white);text-transform:uppercase}
+.h-sep{width:1px;height:26px;background:var(--line)}
+.h-title{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.h-right{display:flex;gap:6px;align-items:center}
+.btn{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Archivo',sans-serif}
+.btn:hover{color:var(--white);border-color:var(--muted)}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-teal:hover{background:#006970;border-color:#006970}
+.btn-outline{border-color:rgba(0,127,136,.4);color:rgba(0,168,180,.85)}
+.btn-outline:hover{background:rgba(0,127,136,.1);color:var(--teal2);border-color:var(--teal)}
+.controls{background:var(--darker);border-bottom:1px solid var(--line);padding:8px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.ctrl-label{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.ctrl-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.phase-btn{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Archivo',sans-serif}
+.phase-btn:hover{border-color:var(--off);color:var(--off)}
+.phase-btn.act{color:#fff}
+.ff{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 9px;border:1px solid var(--line);background:none;cursor:pointer;transition:all .15s;color:var(--muted);font-family:'Archivo',sans-serif}
+.ff.on{background:rgba(255,255,255,.04)}
+.ff:not(.on){opacity:.35}
+.stats-bar{padding:8px 28px;background:var(--black);border-bottom:1px solid var(--line);display:flex;gap:28px;flex-wrap:wrap;align-items:center}
+.stat{display:flex;align-items:baseline;gap:5px}
+.stat-n{font-size:26px;font-weight:900;line-height:1}
+.stat-l{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.month-nav{background:var(--darker);border-bottom:1px solid var(--line);padding:0 28px;display:flex;overflow-x:auto;scrollbar-width:none}
+.month-nav::-webkit-scrollbar{display:none}
+.mnav-btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 16px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;display:flex;flex-direction:column;align-items:flex-start;gap:1px;position:relative;font-family:'Archivo',sans-serif}
+.mnav-btn:hover{color:var(--off)}
+.mnav-btn.active{color:var(--white)}
+.mnav-sub{font-size:7px;letter-spacing:2px;font-weight:700;text-transform:uppercase}
+.mnav-del{position:absolute;top:6px;right:4px;font-size:9px;color:transparent;padding:0 2px;cursor:pointer;transition:color .15s;background:none;border:none;line-height:1}
+.mnav-btn:hover .mnav-del{color:var(--muted)}
+.mnav-del:hover{color:var(--teal)!important}
+.cal-wrap{padding:0 0 80px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.month-header{display:flex;align-items:center;gap:16px;padding:28px 28px 0}
+.month-name{font-size:clamp(40px,5vw,72px);font-weight:900;text-transform:uppercase;line-height:1;letter-spacing:-1px}
+.month-year{font-size:14px;font-weight:700;color:var(--muted);align-self:flex-end;padding-bottom:6px}
+.month-phase-tag{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border:1px solid;margin-left:auto;cursor:pointer;align-self:flex-end;margin-bottom:6px;font-family:'Archivo',sans-serif}
+.month-phase-tag:hover{opacity:.8}
+.month-sub{display:flex;align-items:center;justify-content:space-between;padding:6px 28px 0}
+.month-sub-count{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.day-header-row{display:grid;grid-template-columns:44px repeat(7,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--gray);margin-top:8px}
+.day-head{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-right:1px solid var(--line)}
+.day-head:last-child{border-right:none}
+.week-row{display:grid;grid-template-columns:44px repeat(7,1fr);border-bottom:1px solid var(--line)}
+.week-label{display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-size:8px;font-weight:700;color:rgba(0,127,136,.3);border-right:1px solid var(--line)}
+.day-cell{border-right:1px solid var(--line);padding:6px 6px 4px;min-height:100px;cursor:pointer;transition:background .12s;overflow:hidden}
+.day-cell:last-child{border-right:none}
+.day-cell:not(.empty):hover{background:rgba(0,127,136,.04)}
+.day-cell.weekend{background:rgba(0,0,0,.15)}
+.day-cell.empty{cursor:default;background:rgba(0,0,0,.25)}
+.day-cell.today{background:rgba(0,127,136,.06);outline:1px solid rgba(0,127,136,.3)}
+.day-cell.drag-over{background:rgba(0,127,136,.1)!important;outline:1px dashed rgba(0,127,136,.5)}
+.day-num{font-size:10px;font-weight:700;color:rgba(255,255,255,.22);margin-bottom:3px;line-height:1}
+.today-num{color:var(--teal)!important;font-size:12px}
+/* CHIPS — color = pilar */
+.chip{margin-bottom:3px;padding:4px 6px 3px;cursor:pointer;border-left:3px solid;transition:all .15s;position:relative}
+.chip:hover{transform:translateX(2px);filter:brightness(1.12)}
+.chip.done{opacity:.45}
+.chip.done .chip-t{text-decoration:line-through}
+.chip.done::after{content:'✓';position:absolute;right:4px;top:2px;font-size:8px;color:#16a34a}
+.chip-row{display:flex;align-items:center;gap:4px;margin-bottom:1px}
+.chip-fmt{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.chip-t{font-size:10px;line-height:1.3;color:rgba(255,255,255,.78)}
+.chip-pilar{font-size:7.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:2px;opacity:.8}
+.chip-ap{font-size:8px;margin-left:auto;flex-shrink:0}
+.chip-pauta{font-size:7px;background:rgba(0,127,136,.2);color:var(--teal2);padding:1px 4px;font-weight:700}
+.add-btn{width:100%;margin-top:2px;padding:3px;background:none;border:1px dashed rgba(0,127,136,.15);font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(0,127,136,.3);cursor:pointer;transition:all .15s;font-family:'Archivo',sans-serif}
+.add-btn:hover{border-color:var(--teal);color:var(--teal);background:rgba(0,127,136,.05)}
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.mbox{background:var(--darker);border:1px solid var(--line);width:100%;max-width:640px;max-height:93vh;overflow-y:auto;animation:fadeUp .2s ease both}
+.mbox-sm{max-width:460px}
+.mhdr{padding:18px 22px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--darker);z-index:10}
+.mhdr-t{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--teal2)}
+.mcls{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;transition:color .2s;line-height:1}
+.mcls:hover{color:var(--white)}
+.mbody{padding:18px 22px;display:flex;flex-direction:column;gap:13px}
+.mftr{padding:12px 22px 18px;display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--line);position:sticky;bottom:0;background:var(--darker)}
+.mdel{margin-right:auto;background:none;border:1px solid rgba(0,127,136,.3);color:rgba(0,168,180,.7);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 13px;cursor:pointer;transition:all .2s;font-family:'Archivo',sans-serif}
+.mdel:hover{background:rgba(0,127,136,.1);border-color:var(--teal);color:var(--teal2)}
+.f-row{display:flex;flex-direction:column;gap:4px}
+.f-lbl{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.f-in,.f-sel,.f-ta{background:var(--gray);border:1px solid var(--line);color:var(--white);padding:8px 11px;font-family:'Archivo',sans-serif;font-size:13px;width:100%;transition:border .2s;outline:none}
+.f-in:focus,.f-sel:focus,.f-ta:focus{border-color:var(--teal)}
+.f-sel option{background:var(--darker)}
+.f-ta{min-height:68px;resize:vertical;line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.msec{margin:4px 0 0;padding:12px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:11px}
+.msec-t{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:2px}
+.pauta-tog{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;padding:6px 10px;background:var(--mid);border:1px solid var(--line)}
+.pauta-tog input{width:15px;height:15px;cursor:pointer;accent-color:var(--teal)}
+.pauta-tog-lbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--off)}
+.pauta-flds{display:none;flex-direction:column;gap:10px;padding:10px;background:rgba(0,127,136,.04);border:1px solid rgba(0,127,136,.2)}
+.pauta-cur{font-size:10px;font-weight:700;color:var(--muted);background:var(--mid);padding:8px 9px;border:1px solid var(--line);border-right:none}
+.kpi-g{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.kpi-c{background:var(--mid);border:1px solid var(--line);padding:8px 10px}
+.kpi-n{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.kpi-row{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.kpi-lbl{font-size:10px;color:var(--muted);width:60px;flex-shrink:0}
+.kpi-in{flex:1;background:var(--gray);border:1px solid var(--line);color:var(--white);padding:4px 7px;font-size:11px;font-family:'Archivo',sans-serif;outline:none}
+.kpi-in:focus{border-color:var(--teal)}
+.kpi-est{font-size:9px;color:#16a34a;font-style:italic;padding:2px 0}
+/* combo */
+.cw{position:relative}
+.cdrop{display:none;position:absolute;top:100%;left:0;right:0;background:var(--gray);border:1px solid var(--line);border-top:none;z-index:600;max-height:170px;overflow-y:auto}
+.copt{padding:8px 11px;font-size:13px;color:var(--off);cursor:pointer;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.copt:last-child{border-bottom:none}
+.copt:hover{background:var(--mid)}
+.cdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* manager rows */
+.ph-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+.ph-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.ph-ni{flex:1;background:none;border:none;color:var(--off);font-size:13px;outline:none;padding:2px 0;font-family:'Archivo',sans-serif}
+.ph-ci{width:28px;height:24px;border:none;background:none;cursor:pointer;padding:0;flex-shrink:0}
+.ph-key{font-size:8px;color:var(--muted);letter-spacing:2px;min-width:80px}
+.ph-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 3px;transition:color .2s}
+.ph-del:hover{color:var(--teal)}
+.ph-add{display:flex;gap:8px;align-items:center;margin-top:12px}
+/* pilar preview in modal */
+.pl-prev{display:none;align-items:center;gap:8px;padding:5px 10px;background:var(--mid);border:1px solid var(--line)}
+.pl-prev-dot{width:10px;height:10px;border-radius:50%}
+/* phase picker */
+.ph-drop{display:none;position:fixed;z-index:800;background:var(--gray);border:1px solid var(--line);min-width:160px;padding:4px 0;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.ph-drop.open{display:block}
+.ph-opt{display:block;width:100%;text-align:left;padding:8px 14px;background:none;border:none;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Archivo',sans-serif}
+.ph-opt:hover{background:var(--mid)}
+@media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}header,.controls,.stats-bar,.month-nav{display:none!important}.add-btn{display:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="h-left">
+    <a href="#" class="h-logo">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <rect x="4" y="4" width="92" height="92" stroke="#007f88" stroke-width="4" fill="none"/>
+        <rect x="4" y="4" width="92" height="12" fill="#007f88"/>
+        <text x="50" y="16" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="11" fill="white">FOT</text>
+        <text x="50" y="65" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="26" fill="white">F</text>
+        <rect x="4" y="88" width="92" height="8" fill="#324d54"/>
+      </svg>
+      <span class="h-logo-text">FOT Libre</span>
+    </a>
+    <div class="h-sep"></div>
+    <span class="h-title">Calendario Editorial · Instagram · 2026</span>
+  </div>
+  <div class="h-right">
+    <button class="btn btn-outline" onclick="openMgr('pilar')">⊞ Pilares</button>
+    <button class="btn btn-outline" onclick="openMgr('etapa')">⚙ Etapas</button>
+    <button class="btn btn-outline" id="cfgBtn" onclick="openConfig()">⚙ Sheets</button>
+    <button class="btn" onclick="openAddMonth()">+ Mes</button>
+    <button class="btn" onclick="exportCSV()">↓ CSV</button>
+    <button class="btn" onclick="printCal()">↓ PDF</button>
+    <button class="btn btn-teal" onclick="openAdd(null,null)">+ Nueva pieza</button>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="ctrl-group"><span class="ctrl-label">Etapa</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="etapaFilters"></div></div>
+  <div class="ctrl-group"><span class="ctrl-label">Pilar</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="pilarFilters"></div></div>
+  <div class="ctrl-group"><span class="ctrl-label">Formato</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="fmtFilters"></div></div>
+</div>
+<div class="stats-bar" id="statsBar"></div>
+<div class="month-nav" id="monthNav"></div>
+<div class="cal-wrap" id="calWrap"></div>
+
+<!-- MAIN MODAL -->
+<div class="overlay" id="mainModal" onclick="if(event.target===this)closeMain()">
+ <div class="mbox">
+  <div class="mhdr"><span class="mhdr-t" id="mainTitle">Nueva pieza</span><button class="mcls" onclick="closeMain()">✕</button></div>
+  <div class="mbody">
+   <input type="hidden" id="eId">
+   <div class="grid2">
+    <div class="f-row"><label class="f-lbl">Fecha</label><input type="date" class="f-in" id="eDate"></div>
+    <div class="f-row"><label class="f-lbl">Formato</label>
+     <div class="cw"><input class="f-in" id="eFmt" placeholder="Reel, Carrusel, Story..." autocomplete="off" oninput="cOpen('eFmt','dFmt',optsFmt)" onfocus="cOpen('eFmt','dFmt',optsFmt)" onblur="cSched('dFmt')"><div class="cdrop" id="dFmt"></div></div></div>
+   </div>
+   <div class="f-row"><label class="f-lbl">Pilar editorial</label>
+    <div class="cw"><input class="f-in" id="ePilar" placeholder="Educación, Casos de Éxito, Referentes..." autocomplete="off" oninput="cOpen('ePilar','dPilar',optsPilar);updPilarPrev()" onfocus="cOpen('ePilar','dPilar',optsPilar)" onblur="cSched('dPilar');setTimeout(updPilarPrev,300)"><div class="cdrop" id="dPilar"></div></div>
+    <div class="pl-prev" id="plPrev"><div class="pl-prev-dot" id="plDot"></div><span id="plLbl" style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)"></span></div>
+   </div>
+   <div class="f-row"><label class="f-lbl">Serie / Contenido</label>
+    <div class="cw"><input class="f-in" id="eSerie" placeholder="La Pregunta del Millón, Lupa de los Barrios..." autocomplete="off" oninput="cOpen('eSerie','dSerie',optsSerie)" onfocus="cOpen('eSerie','dSerie',optsSerie)" onblur="cSched('dSerie')"><div class="cdrop" id="dSerie"></div></div></div>
+   <div class="f-row"><label class="f-lbl">Título</label><input class="f-in" id="eTitle" placeholder="Ej: La Pregunta del Millón #1 — ¿Qué es el FOT?"></div>
+   <div class="f-row"><label class="f-lbl">Hook</label><input class="f-in" id="eHook" placeholder='Ej: "Esta es la pregunta que me hacen todos los agentes nuevos."'></div>
+   <div class="f-row"><label class="f-lbl">Caption / Copy</label><textarea class="f-ta" id="eCopy" placeholder="Caption completo listo para publicar..."></textarea></div>
+   <div class="f-row"><label class="f-lbl">CTA</label>
+    <div class="cw"><input class="f-in" id="eCta" placeholder="Ej: Guardá este video 📌" autocomplete="off" oninput="cOpen('eCta','dCta',optsCta)" onfocus="cOpen('eCta','dCta',optsCta)" onblur="cSched('dCta')"><div class="cdrop" id="dCta"></div></div></div>
+   <div class="grid2">
+    <div class="f-row"><label class="f-lbl">Canal</label>
+     <div class="cw"><input class="f-in" id="eChan" placeholder="📸 Instagram Reels..." autocomplete="off" oninput="cOpen('eChan','dChan',optsChan)" onfocus="cOpen('eChan','dChan',optsChan)" onblur="cSched('dChan')"><div class="cdrop" id="dChan"></div></div></div>
+    <div class="f-row"><label class="f-lbl">Responsable</label>
+     <select class="f-sel" id="eResp"><option value="">Sin asignar</option><option value="Vertice">Vértice</option><option value="Cliente">Cliente</option><option value="Compartido">Compartido</option></select></div>
+    <div class="f-row"><label class="f-lbl">Estado</label>
+     <select class="f-sel" id="eStatus"><option value="pending">Pendiente</option><option value="inprogress">En producción</option><option value="done">Publicado ✓</option></select></div>
+    <div class="f-row"><label class="f-lbl">Aprobación</label>
+     <select class="f-sel" id="eApproval"><option value="none">— Sin enviar</option><option value="review">En revisión</option><option value="ok">Aprobado ✓</option><option value="changes">Con cambios ✗</option></select></div>
+    <div class="f-row"><label class="f-lbl">Etapa</label><select class="f-sel" id="ePhase"></select></div>
+    <div class="f-row"><label class="f-lbl">Link / URL</label><input type="url" class="f-in" id="eLink" placeholder="https://..."></div>
+   </div>
+   <div class="f-row"><label class="f-lbl">Notas de producción</label><textarea class="f-ta" id="eNotes" placeholder="Indicaciones de grabación, referencias visuales..."></textarea></div>
+   <div class="msec">
+    <div class="msec-t">Inversión en Pauta</div>
+    <label class="pauta-tog"><input type="checkbox" id="ePautaOn" onchange="togPauta()"><span class="pauta-tog-lbl">Activar pauta</span></label>
+    <div class="pauta-flds" id="pautaFlds">
+     <div class="grid2">
+      <div class="f-row"><label class="f-lbl">Monto (USD)</label>
+       <div style="display:flex"><span class="pauta-cur">USD</span><input type="number" class="f-in" id="ePautaUSD" min="0" step="5" placeholder="0" oninput="updARS()" style="border-left:none"></div>
+       <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:2px" id="arsShow"></div></div>
+      <div class="f-row"><label class="f-lbl">Objetivo</label>
+       <select class="f-sel" id="ePautaObj"><option value="awareness">Alcance / Awareness</option><option value="engagement">Engagement</option><option value="traffic">Tráfico</option><option value="conversion">Conversión / Lead</option></select></div>
+      <div class="f-row"><label class="f-lbl">Plataforma</label>
+       <select class="f-sel" id="ePautaPlat"><option value="meta">Meta Ads (IG + FB)</option><option value="google">Google Ads</option></select></div>
+      <div class="f-row"><label class="f-lbl">Duración (días)</label><input type="number" class="f-in" id="ePautaDias" min="1" max="90" value="7"></div>
+     </div>
+    </div>
+   </div>
+   <div class="msec">
+    <div class="msec-t">KPIs & Estimaciones</div>
+    <div class="kpi-g" id="kpiGrid"></div>
+    <div style="font-size:10px;color:var(--muted);font-style:italic;margin-top:2px">* Benchmarks para agencia inmobiliaria B2B Argentina.</div>
+   </div>
+  </div>
+  <div class="mftr">
+   <button class="mdel" id="delBtn" onclick="delPost()" style="display:none">Eliminar</button>
+   <button class="btn" onclick="closeMain()">Cancelar</button>
+   <button class="btn btn-teal" onclick="savePost()">Guardar</button>
+  </div>
+ </div>
+</div>
+
+<!-- PILAR MANAGER -->
+<div class="overlay" id="pilarMgr" onclick="if(event.target===this)closeMgr('pilar')">
+ <div class="mbox mbox-sm">
+  <div class="mhdr"><span class="mhdr-t">Gestionar Pilares</span><button class="mcls" onclick="closeMgr('pilar')">✕</button></div>
+  <div class="mbody">
+   <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Los pilares son el eje de color del calendario. Podés agregar, renombrar y cambiar el color de cada uno.</p>
+   <div id="pilarList"></div>
+   <div class="ph-add"><input class="f-in" id="newPilarName" placeholder="Nombre del nuevo pilar" style="flex:1"><input type="color" id="newPilarColor" value="#007f88" style="width:36px;height:36px;border:none;cursor:pointer;background:none"><button class="btn btn-teal" onclick="addPilar()">+ Agregar</button></div>
+  </div>
+  <div class="mftr"><button class="btn btn-teal" onclick="closeMgr('pilar')">Cerrar</button></div>
+ </div>
+</div>
+
+<!-- ETAPA MANAGER -->
+<div class="overlay" id="etapaMgr" onclick="if(event.target===this)closeMgr('etapa')">
+ <div class="mbox mbox-sm">
+  <div class="mhdr"><span class="mhdr-t">Gestionar Etapas</span><button class="mcls" onclick="closeMgr('etapa')">✕</button></div>
+  <div class="mbody">
+   <div id="etapaList"></div>
+   <div class="ph-add"><input class="f-in" id="newEtapaName" placeholder="Nombre de la etapa" style="flex:1"><input type="color" id="newEtapaColor" value="#007f88" style="width:36px;height:36px;border:none;cursor:pointer;background:none"><button class="btn btn-teal" onclick="addEtapa()">+ Agregar</button></div>
+  </div>
+  <div class="mftr"><button class="btn btn-teal" onclick="closeMgr('etapa')">Cerrar</button></div>
+ </div>
+</div>
+
+<!-- ADD MONTH -->
+<div class="overlay" id="addMonthModal" onclick="if(event.target===this)closeAddMonth()">
+ <div class="mbox" style="max-width:380px">
+  <div class="mhdr"><span class="mhdr-t">Agregar Mes</span><button class="mcls" onclick="closeAddMonth()">✕</button></div>
+  <div class="mbody">
+   <div class="grid2">
+    <div class="f-row"><label class="f-lbl">Mes</label>
+     <select class="f-sel" id="amMes"><option value="01">Enero</option><option value="02">Febrero</option><option value="03">Marzo</option><option value="04">Abril</option><option value="05">Mayo</option><option value="06">Junio</option><option value="07">Julio</option><option value="08">Agosto</option><option value="09">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div>
+    <div class="f-row"><label class="f-lbl">Año</label><select class="f-sel" id="amAno"><option value="2026" selected>2026</option><option value="2027">2027</option></select></div>
+   </div>
+   <div class="f-row"><label class="f-lbl">Etapa</label><select class="f-sel" id="amEtapa"></select></div>
+  </div>
+  <div class="mftr"><button class="btn" onclick="closeAddMonth()">Cancelar</button><button class="btn btn-teal" onclick="doAddMonth()">Agregar</button></div>
+ </div>
+</div>
+
+<!-- PHASE PICKER DROPDOWN -->
+<div class="ph-drop" id="phDrop"></div>
+
+<script>
+// ═══ PILARES — eje de color del calendario ═══════════════
+// key, name, color — gestionable igual que etapas
+let PILARES = [
+  {key:'edu',   name:'Educación & Capacitación', color:'#007f88'},
+  {key:'casos', name:'Casos de Éxito',           color:'#c07830'},
+  {key:'ref',   name:'Referentes & VLOG',        color:'#b1b297'},
+  {key:'story', name:'Story de soporte',         color:'#5a4a8a'},
+];
+function getPilar(k){ return PILARES.find(p=>p.key===k||p.name===k)||PILARES[3]; }
+function getPilarByName(n){ return PILARES.find(p=>p.name===n)||null; }
+function hex2rgba(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
+
+// ═══ ETAPAS ═══════════════════════════════════════════════
+let ETAPAS = [
+  {key:'reactivacion', name:'Reactivación', color:'#007f88'},
+  {key:'alwayson',     name:'Always On',    color:'#324d54'},
+  {key:'campana',      name:'Campaña',      color:'#b1b297'},
+];
+function getEtapa(k){ return ETAPAS.find(e=>e.key===k)||{name:'—',color:'#5a7a82'}; }
+
+// ═══ SERIES ═══════════════════════════════════════════════
+const SERIES = [
+  {key:'pregunta',  name:'La Pregunta del Millón',  pilar:'edu'},
+  {key:'lupa',      name:'Lupa de los Barrios',     pilar:'edu'},
+  {key:'cerramos',  name:'Cerramos',                pilar:'casos'},
+  {key:'metodo',    name:'El Método FOT Libre',     pilar:'casos'},
+  {key:'aprendimos',name:'Lo que aprendimos',       pilar:'casos'},
+  {key:'referente', name:'Referentes (De Visita)',  pilar:'ref'},
+  {key:'collab',    name:'¿Qué harías? (Collab)',   pilar:'ref'},
+  {key:'vlog',      name:'VLOG A Estrenar',         pilar:'ref'},
+  {key:'story',     name:'Story',                   pilar:'story'},
+];
+function getSerie(k){ return SERIES.find(s=>s.key===k||s.name===k)||{key:'',name:k||'',pilar:'story'}; }
+
+// ═══ FORMATOS ═════════════════════════════════════════════
+const FMTS = [
+  {key:'reel',    label:'Reel',        color:'#00a8b4'},
+  {key:'carrusel',label:'Carrusel',    color:'#4d9aaa'},
+  {key:'story',   label:'Story',       color:'#7b6bb5'},
+  {key:'collab',  label:'Reel Collab', color:'#4d7a6e'},
+  {key:'post',    label:'Post',        color:'#5a7a82'},
+];
+let activeFmts = new Set(FMTS.map(f=>f.key));
+function getFmt(k){ return FMTS.find(f=>f.key===k||f.label===k)||{key:'custom',label:k,color:'#5a7a82'}; }
+
+// ═══ MONTHS ═══════════════════════════════════════════════
+// 1 mayo 2026  = viernes → grilla Lun=0 → startDow=4
+// 1 junio 2026 = lunes   → startDow=0
+// 1 julio 2026 = miérc   → startDow=2
+let MONTHS = [
+  {key:'2026-05',name:'Mayo',  year:'2026',etapa:'reactivacion',days:31,startDow:4},
+  {key:'2026-06',name:'Junio', year:'2026',etapa:'alwayson',    days:30,startDow:0},
+  {key:'2026-07',name:'Julio', year:'2026',etapa:'alwayson',    days:31,startDow:2},
+];
+
+// ═══ KPI BENCHMARKS ═══════════════════════════════════════
+const KPIDEFS = {
+  reel:    [{k:'reproducciones',e:'800–4.000'},{k:'alcance',e:'600–2.500'},{k:'guardados',e:'30–120'},{k:'interacciones',e:'40–150'}],
+  carrusel:[{k:'alcance',e:'600–2.000'},{k:'guardados',e:'50–200'},{k:'swipes',e:'80–300'},{k:'interacciones',e:'30–100'}],
+  story:   [{k:'vistas',e:'150–600'},{k:'respuestas',e:'3–20'},{k:'clicks',e:'8–40'},{k:'salidas',e:'15–60'}],
+  collab:  [{k:'reproducciones',e:'1.500–8.000'},{k:'alcance',e:'Doble audiencia'},{k:'guardados',e:'50–200'},{k:'DMs',e:'10–50'}],
+  post:    [{k:'alcance',e:'400–1.500'},{k:'interacciones',e:'15–70'},{k:'guardados',e:'10–50'},{k:'visitas_perfil',e:'10–40'}],
+};
+let KV = {};
+function renderKpis(fk){
+  const defs=(KPIDEFS[fk]||KPIDEFS.reel);
+  document.getElementById('kpiGrid').innerHTML=defs.map(d=>{
+    const v=KV[d.k]||{};
+    return`<div class="kpi-c"><div class="kpi-n">${d.k.replace(/_/g,' ')}</div>
+    <div class="kpi-row"><span class="kpi-lbl">Target</span><input class="kpi-in" placeholder="${d.e}" value="${v.target||''}" oninput="KV['${d.k}']=(KV['${d.k}']||{});KV['${d.k}'].target=this.value"></div>
+    <div class="kpi-row"><span class="kpi-lbl">Real</span><input class="kpi-in" placeholder="—" value="${v.real||''}" oninput="KV['${d.k}']=(KV['${d.k}']||{});KV['${d.k}'].real=this.value"></div>
+    <div class="kpi-est">Est: ${d.e}</div></div>`;
+  }).join('');
+}
+
+// ═══ POSTS DATA ════════════════════════════════════════════
+// pilar = key del pilar (edu / casos / ref / story)
+// serie = key de la serie
+// Lógica: 2 feed/semana, 4 stories/semana, inicio 13 mayo 2026
+
+const COMPILED = [
+// ── MAYO s1 (13-17) ──
+{id:'f01',date:'2026-05-13',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #1 — ¿Qué es el FOT?',hook:'"Esta es la pregunta que me hacen todos los agentes nuevos."',copy:'¿Sabés qué es el FOT?\n\nEs el coeficiente que define cuánto podés construir sobre un terreno. Sin entenderlo, el precio de cualquier lote es un misterio.\n\nTe lo explico en 40 segundos.',cta:'Guardá este video antes de buscar tu próximo terreno 📌',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Talking head a cámara. Fondo oficina FOT Libre. Subtítulos on-screen. 35-40s. Ver guión modelo en Doc de Guiones.',responsable:'Vertice'},
+{id:'s01',date:'2026-05-14',fmt:'story',  pilar:'story',serie:'story',    title:'Story BTS — Primer Reel: detrás de escena',hook:'Detrás del video de hoy',copy:'3-4 slides mostrando el set-up del rodaje: cámara, fondo, iluminación.',cta:'Ver el resultado en el feed →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'BTS del rodaje del reel 13/05. Tono informal.',responsable:'Vertice'},
+{id:'s02',date:'2026-05-15',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Poll: ¿Sabés calcular el FOT?',hook:'¿Sabés cuánto podés construir en un lote de 300m²?',copy:'Poll interactivo: "¿Sabés calcular el FOT de un terreno?" Sí / No.\nRespuesta con mini-infografía al día siguiente.',cta:'Respondé →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Sticker de encuesta. Mide nivel de conocimiento de la audiencia.',responsable:'Vertice'},
+{id:'f02',date:'2026-05-16',fmt:'carrusel',pilar:'edu', serie:'lupa',     title:'Lupa de los Barrios — PALERMO',hook:'"¿Dónde construir más por el mismo terreno? Palermo en números."',copy:'Carrusel 9 slides: hook, por qué este barrio, suelo en números, mapa+zonificación, FOT disponible, oportunidad de desarrollo, dato insider, tendencia 2026, CTA.\n\n⚠️ COMPLETAR CON DATOS REALES ANTES DE DISEÑAR.',cta:'¿Tenés un proyecto en Palermo? DM 💬',channel:'📸 Instagram Feed',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Ver estructura de 9 slides en Doc de Guiones. Tabla de variables al final del doc.',responsable:'Vertice'},
+{id:'s03',date:'2026-05-16',fmt:'story',  pilar:'edu',  serie:'story',    title:'Story — Teaser carrusel Palermo',hook:'Nuevo carrusel: lo que no sabías de Palermo',copy:'Foto del barrio + "Ya está en el feed". Publicar mismo día que el carrusel.',cta:'Swipe en el feed →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Publicar simultáneo con f02.',responsable:'Vertice'},
+// ── MAYO s2 (18-22) ──
+{id:'f03',date:'2026-05-19',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #2 — ¿Qué diferencia FOT y FOS?',hook:'"Confundís estos dos y ya perdiste la negociación."',copy:'FOT = Factor de Ocupación Total → cuánto podés construir en volumen.\nFOS = Factor de Ocupación del Suelo → cuánto de la planta baja puede ocuparse.\n\nDiferente. Importante.',cta:'Seguinos para el próximo video 🎯',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Misma identidad visual que ep.1.',responsable:'Vertice'},
+{id:'s04',date:'2026-05-19',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Respuesta encuesta FOT',hook:'El resultado de la encuesta del viernes',copy:'Resultado del poll + mini-infografía con la fórmula FOT.',cta:'¿Más preguntas? DM 📩',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Responde la encuesta de s02.',responsable:'Vertice'},
+{id:'s05',date:'2026-05-21',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Teaser primer Referente',hook:'La semana que viene viene alguien al estudio...',copy:'Teaser de la primera entrevista "De Visita". No revelar quién todavía.',cta:'¿Quién será? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Story de expectativa.',responsable:'Vertice'},
+{id:'f04',date:'2026-05-22',fmt:'reel',   pilar:'ref',  serie:'referente',title:'Referentes (De Visita) — Ep. 01',hook:'"Le pregunté a uno de los developers más activos de CABA qué haría con $500K hoy."',copy:'Clip 60-90s del momento más potente de la primera entrevista.',cta:'Entrevista completa próximamente 👉',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Ver estructura de 5 módulos en Doc de Guiones. Usar Módulo 3 (Opinión fuerte) para el clip.',responsable:'Vertice'},
+// ── MAYO s3 (25-29) ──
+{id:'s06',date:'2026-05-25',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Teaser Collab ¿Qué harías?',hook:'Esta semana vamos a un terreno con un developer...',copy:'Foto/video corto del terreno sin mostrar al developer. Crear expectativa.',cta:'Mañana en el feed 👀',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Publicar 1 día antes del Reel Collab.',responsable:'Vertice'},
+{id:'f05',date:'2026-05-26',fmt:'collab', pilar:'ref',  serie:'collab',   title:'¿Qué harías con este terreno? — Ep. 01 (BELGRANO)',hook:'"Este terreno en Belgrano tiene 620m² y FOT 3. Le pregunté a [DEVELOPER] qué haría acá."',copy:'Reel 60s.\n00:00 Plano del terreno. Texto on-screen: "BELGRANO · 620m² · FOT 3"\n00:05 Host presenta\n00:12 Developer da su visión en vivo\n00:50 Host cierra + CTA\n\nPublicar como COLLAB con la cuenta del developer.',cta:'¿Tenés un proyecto? Escribinos por DM 🏗️',channel:'📸 Instagram Collab',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'PUBLICAR COMO COLLAB. Grabar 10-11hs. Ver guión beat-by-beat en Doc de Guiones.',responsable:'Vertice'},
+{id:'s07',date:'2026-05-27',fmt:'story',  pilar:'ref',  serie:'story',    title:'Story BTS — Rodaje en el terreno',hook:'Lo que pasó antes de grabar',copy:'BTS del rodaje del Collab: llegada al terreno, recorrido, set-up.',cta:'¿Viste el video? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Story día después del Collab.',responsable:'Vertice'},
+{id:'f06',date:'2026-05-28',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #3 — ¿Cómo se calcula la incidencia?',hook:'"La fórmula que separa a los que cierran de los que no."',copy:'Incidencia = precio del terreno ÷ m² construibles totales.\n\nEjemplo: terreno USD 300.000, FOT 3 sobre 200m² = 600m² → incidencia USD 500/m².',cta:'Guardá esto antes de tu próxima negociación 📌',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'reactivacion',link:'',notes:'Agregar gráfico simple con la fórmula on-screen. 40-45s.',responsable:'Vertice'},
+// ── JUNIO s1 (1-5) ──
+{id:'s08',date:'2026-06-01',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Recap mayo + anticipo junio',hook:'Este fue mayo en FOT Libre',copy:'2-3 slides resumen del mes. Anticipo junio: "En junio: Núñez y más referentes."',cta:'¿Qué barrio querés que cubramos? 👇',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Story de transición de mes.',responsable:'Vertice'},
+{id:'f07',date:'2026-06-02',fmt:'carrusel',pilar:'edu', serie:'lupa',     title:'Lupa de los Barrios — NÚÑEZ',hook:'"Núñez: el barrio con más proyectos en construcción de CABA ahora mismo."',copy:'Carrusel 9 slides. Misma estructura que Palermo.\n\n⚠️ COMPLETAR CON DATOS REALES ANTES DE DISEÑAR.',cta:'¿Proyecto en Núñez? DM 💬',channel:'📸 Instagram Feed',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Segundo carrusel de la serie Lupa.',responsable:'Vertice'},
+{id:'s09',date:'2026-06-02',fmt:'story',  pilar:'edu',  serie:'story',    title:'Story — Teaser carrusel Núñez',hook:'Nuevo barrio en el mapa: Núñez',copy:'Teaser del carrusel. Publicar mismo día.',cta:'Ya está en el feed →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Publicar simultáneo con f07.',responsable:'Vertice'},
+{id:'f08',date:'2026-06-04',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #4 — ¿Qué es la zonificación y por qué importa?',hook:'"Si no revisás esto primero, podés comprar un problema."',copy:'La zonificación determina qué tipo de edificio podés hacer y a qué altura.\n\nC3, R2bIII, E3... cada código tiene una implicancia diferente.',cta:'¿Sabés la zona de tu lote? Consultanos →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Usar mapa de zonificación CABA como recurso visual on-screen.',responsable:'Vertice'},
+// ── JUNIO s2 (8-12) ──
+{id:'s10',date:'2026-06-08',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Dato de mercado semanal',hook:'El dato de la semana en terrenos CABA',copy:'Un dato concreto: precio m² actualizado, incidencia promedio, operaciones del mes.',cta:'¿Querés el análisis completo? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Routine semanal de Stories.',responsable:'Vertice'},
+{id:'f09',date:'2026-06-09',fmt:'reel',   pilar:'ref',  serie:'referente',title:'Referentes (De Visita) — Ep. 02',hook:'"Esto es lo que más me sorprendió de la respuesta de [NOMBRE]."',copy:'Clip 60-90s del segundo referente. Elegir el fragmento más potente.',cta:'Entrevista completa próximamente →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Segunda entrevista De Visita. Ver lista de invitados en Doc de Guiones.',responsable:'Vertice'},
+{id:'s11',date:'2026-06-10',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Teaser próximo Collab',hook:'La semana que viene volvemos a un terreno...',copy:'Foto/video corto del próximo terreno. No revelar developer.',cta:'¿Con quién será? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Teaser 1-2 días antes del segundo Collab.',responsable:'Vertice'},
+{id:'f10',date:'2026-06-11',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #5 — ¿Por qué los mejores terrenos no llegan a los portales?',hook:'"La verdad del mercado que nadie te cuenta."',copy:'El mercado off-market de terrenos existe y es donde están los mejores deals.\n\nEn FOT Libre el 70% de los lotes que conseguimos nunca se publicaron en Zonaprop.',cta:'DM "LOTE" para acceso anticipado →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Keyword trigger DM LOTE.',responsable:'Vertice'},
+// ── JUNIO s3 (15-19) ──
+{id:'s12',date:'2026-06-15',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Pregunta real de la audiencia',hook:'Me preguntaron esto esta semana',copy:'Screenshot de DM real (anonimizado) + respuesta corta.',cta:'¿Tenés preguntas? DM abierto 📩',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Muy auténtico. Humaniza.',responsable:'Vertice'},
+{id:'f11',date:'2026-06-16',fmt:'collab', pilar:'ref',  serie:'collab',   title:'¿Qué harías con este terreno? — Ep. 02 (PALERMO)',hook:'"400m² en Palermo, FOT 3.5. Invitamos a [DEVELOPER] a ver qué haría."',copy:'Misma estructura que Ep. 01. Nuevo terreno, nuevo developer. Publicar como Collab.',cta:'¿Te interesa este tipo de terreno? DM 🏗️',channel:'📸 Instagram Collab',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Segundo Collab. Ver guión en Doc de Guiones.',responsable:'Vertice'},
+{id:'s13',date:'2026-06-17',fmt:'story',  pilar:'ref',  serie:'story',    title:'Story BTS — Collab Palermo',hook:'Así fue el rodaje de ayer',copy:'BTS del segundo Collab.',cta:'¿Viste el video? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Story día después del Collab.',responsable:'Vertice'},
+{id:'f12',date:'2026-06-18',fmt:'carrusel',pilar:'edu', serie:'lupa',     title:'Lupa de los Barrios — BELGRANO',hook:'"Belgrano R: el micro-barrio con más pedidos en nuestra cartera."',copy:'Tercer carrusel de la serie Lupa. 9 slides, misma estructura.\n\n⚠️ COMPLETAR CON DATOS REALES ANTES DE DISEÑAR.\n\nPublicar con nota "3/3 de la serie Lupa".',cta:'¿Proyecto en Belgrano? DM 💬',channel:'📸 Instagram Feed',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Tercer carrusel — cierra la serie Lupa.',responsable:'Vertice'},
+// ── JUNIO s4 (22-26) ──
+{id:'s14',date:'2026-06-22',fmt:'story',  pilar:'edu',  serie:'story',    title:'Story — Cierre serie Lupa + encuesta próximo barrio',hook:'Cubrimos 3 barrios. ¿Cuál fue el más guardado?',copy:'Slide 1: Palermo, Núñez, Belgrano cubiertos\nSlide 2: Dato del barrio más consultado\nSlide 3: "¿Qué barrio querés que analicemos ahora?"',cta:'Respondé →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Medir engagement de los 3 carruseles.',responsable:'Vertice'},
+{id:'f13',date:'2026-06-23',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #6 — ¿Qué es el Mapa de Incidencias de FOT Libre?',hook:'"La herramienta que desarrollamos para evaluar terrenos en CABA."',copy:'El Mapa de Incidencias cruza precio de terreno, FOT y zonificación para cada barrio de CABA.\n\nCon eso calculamos el valor real de cualquier lote antes de hacer una oferta.',cta:'DM "MAPA" para el análisis de tu terreno →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Presentar el producto propio. Usar el mapa real como recurso visual.',responsable:'Vertice'},
+{id:'s15',date:'2026-06-25',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Teaser Referente Ep. 03 (revelar nombre)',hook:'Esta semana viene un referente que no te podés perder',copy:'Revelar el nombre del invitado.',cta:'¿Lo conocés? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'En esta etapa ya revelar el nombre del invitado.',responsable:'Vertice'},
+{id:'f14',date:'2026-06-26',fmt:'reel',   pilar:'ref',  serie:'referente',title:'Referentes (De Visita) — Ep. 03',hook:'"Una opinión que me cambió la manera de ver el mercado."',copy:'Tercer clip. Elegir la frase más contraintuitiva de la entrevista.',cta:'Seguinos para la entrevista completa →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Tercera entrega De Visita.',responsable:'Vertice'},
+// ── JULIO s1 (1-4) ──
+{id:'s16',date:'2026-07-01',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Recap junio + encuesta julio',hook:'Junio fue intenso. Julio también.',copy:'Recap de junio: 3 barrios, 2 collabs, 3 referentes.\nEncuesta: "¿Qué pregunta querés que respondamos este mes?"',cta:'¿Qué contenido querés ver en julio? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Story transición de mes. Co-crear con la audiencia.',responsable:'Vertice'},
+{id:'f15',date:'2026-07-02',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #7 — ¿Cuándo conviene esperar y cuándo hay que cerrar?',hook:'"La respuesta que todo desarrollador necesita escuchar."',copy:'Conviene cerrar cuando: FOT alto + incidencia por debajo del promedio histórico.\nConviene esperar cuando: sobreoferta de lotes similares o barrio en transición.',cta:'¿Tenés dudas sobre tu operación? DM →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Pregunta de alto valor. Puede generar consultas directas.',responsable:'Vertice'},
+{id:'s17',date:'2026-07-02',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Encuesta: votá la próxima pregunta',hook:'¿Cuál de estas preguntas querés que responda la semana que viene?',copy:'3 opciones de preguntas para el próximo Reel educativo. La más votada se graba primero.',cta:'Votá ahora →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Story interactiva para co-crear contenido.',responsable:'Vertice'},
+// ── JULIO s2 (7-11) ──
+{id:'f16',date:'2026-07-07',fmt:'collab', pilar:'ref',  serie:'collab',   title:'¿Qué harías con este terreno? — Ep. 03 (NÚÑEZ)',hook:'"800m² en Núñez, FOT 2.5. ¿Qué construirías acá?"',copy:'Tercer episodio del formato. Núñez como locación. Si es posible: Versión B con dos developers.',cta:'¿Te interesa? DM →',channel:'📸 Instagram Collab',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Tercer Collab. Ver variaciones del formato en Doc de Guiones.',responsable:'Vertice'},
+{id:'s18',date:'2026-07-08',fmt:'story',  pilar:'ref',  serie:'story',    title:'Story BTS — Collab Núñez',hook:'Detrás del rodaje de ayer',copy:'BTS del tercer Collab.',cta:'¿Viste el video? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Story día después del Collab.',responsable:'Vertice'},
+{id:'f17',date:'2026-07-09',fmt:'carrusel',pilar:'edu', serie:'lupa',     title:'Lupa de los Barrios — NUEVA ENTREGA (barrio elegido por la audiencia)',hook:'"El barrio que pidieron. Acá está."',copy:'Cuarto carrusel Lupa — el barrio elegido en la encuesta de junio.\n\n⚠️ EL BARRIO LO ELIGE LA AUDIENCIA VÍA ENCUESTA EN STORY.',cta:'DM para proyectos en [barrio] →',channel:'📸 Instagram Feed',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'El barrio lo elige la audiencia en encuesta del 22/06.',responsable:'Vertice'},
+{id:'s19',date:'2026-07-09',fmt:'story',  pilar:'edu',  serie:'story',    title:'Story — Teaser cuarto carrusel Lupa',hook:'El barrio que pidieron. Ya en el feed.',copy:'Revelar el barrio elegido + teaser del carrusel.',cta:'Ya en el feed →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Publicar simultáneo con f17.',responsable:'Vertice'},
+// ── JULIO s3 (14-18) ──
+{id:'f18',date:'2026-07-14',fmt:'reel',   pilar:'edu',  serie:'pregunta', title:'La Pregunta del Millón #8 — (la más votada en la encuesta)',hook:'"Me pidieron que responda esto..."',copy:'La pregunta más votada en la encuesta de stories del 02/07.',cta:'¿Más preguntas? DM →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Responder pregunta más votada.',responsable:'Vertice'},
+{id:'s20',date:'2026-07-14',fmt:'story',  pilar:'story',serie:'story',    title:'Story — "Esto me llegó por DM"',hook:'Alguien me preguntó esto y quiero que todos lo vean',copy:'Screenshot de DM real (anonimizado) + respuesta en texto.',cta:'¿Tenés más preguntas? DM →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Muy auténtico. Genera más DMs.',responsable:'Vertice'},
+{id:'f19',date:'2026-07-16',fmt:'reel',   pilar:'ref',  serie:'referente',title:'Referentes (De Visita) — Ep. 04',hook:'"Lo que más me sorprendió de esta charla"',copy:'Cuarto clip de referente. Elegir el fragmento más potente.',cta:'Entrevista completa próximamente →',channel:'📸 Instagram Reels',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Cuarta entrega De Visita. Anticipar Expo Real Estate 12-13 agosto 2026.',responsable:'Vertice'},
+{id:'s21',date:'2026-07-16',fmt:'story',  pilar:'ref',  serie:'story',    title:'Story — Recap De Visita: 4 episodios',hook:'Ya van 4 referentes. ¿Cuál fue el más impactante para vos?',copy:'Encuesta: ¿cuál fue el referente más valioso de los 4?',cta:'Votá →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Medir qué tipo de entrevistado resuena más.',responsable:'Vertice'},
+// ── JULIO s4 (21-25) ──
+{id:'s22',date:'2026-07-21',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Teaser: llegamos a agosto con la Expo',hook:'Llegamos a agosto con novedades',copy:'"En agosto estamos en la Expo Real Estate 2026."',cta:'¿Vienen a la Expo? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Crear expectativa para Expo Real Estate 12-13 agosto 2026, Hilton BA.',responsable:'Vertice'},
+{id:'f20',date:'2026-07-23',fmt:'collab', pilar:'ref',  serie:'collab',   title:'¿Qué harías con este terreno? — Ep. 04 (VERSIÓN DESAFÍO)',hook:'"Un terreno distinto. Una restricción real. Resultado inesperado."',copy:'Versión D del formato: restricción real al developer.\n"Tenés 200m², FOT 2.5, presupuesto $X. ¿Qué construís?"\n\nPublicar como Collab.',cta:'¿Qué hubieras hecho vos? Comentá 👇',channel:'📸 Instagram Collab',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Versión D del formato. Ver Doc de Guiones para variantes A-B-C-D.',responsable:'Vertice'},
+{id:'s23',date:'2026-07-23',fmt:'story',  pilar:'story',serie:'story',    title:'Story — Cierre julio + anticipo agosto',hook:'Julio en números',copy:'Infografía: piezas publicadas, series lanzadas, episodios. Anticipo agosto.',cta:'¿Nos ves en la Expo Real Estate? →',channel:'📖 Instagram Stories',status:'pending',approval:'none',etapa:'alwayson',link:'',notes:'Cierre de julio.',responsable:'Vertice'},
+];
+
+let posts = [...COMPILED];
+
+// ═══ STATE ════════════════════════════════════════════════
+let activeEtapa = null;
+let activePilares = new Set(PILARES.map(p=>p.key));
+let editId = null;
+let dragId = null;
+let curMonth = '2026-05';
+
+// ═══ PAUTA ════════════════════════════════════════════════
+function updARS(){const u=parseFloat(document.getElementById('ePautaUSD')?.value)||0;const el=document.getElementById('arsShow');if(el)el.textContent=u>0?`≈ ARS ${(u*1350).toLocaleString('es-AR')}`:''}
+function togPauta(){const on=document.getElementById('ePautaOn')?.checked;const f=document.getElementById('pautaFlds');if(f)f.style.display=on?'flex':'none'}
+
+// ═══ COMBOBOX ═════════════════════════════════════════════
+const cTimers={};
+function cOpen(iId,dId,fn){
+  const inp=document.getElementById(iId),drop=document.getElementById(dId);if(!inp||!drop)return;
+  const q=inp.value.toLowerCase();
+  const opts=fn().filter(o=>!q||o.toLowerCase().includes(q));
+  if(!opts.length){drop.style.display='none';return;}
+  drop.innerHTML=opts.map(o=>`<div class="copt" onmousedown="cPick('${iId}','${dId}','${o.replace(/'/g,"\\'")}','${iId}')">${o}</div>`).join('');
+  drop.style.display='block';
+}
+function cPick(iId,dId,val){
+  const el=document.getElementById(iId);if(el)el.value=val;
+  const d=document.getElementById(dId);if(d)d.style.display='none';
+  if(iId==='eFmt')renderKpis(getFmt(val).key||val);
+  if(iId==='ePilar')setTimeout(updPilarPrev,50);
+}
+function cSched(dId){cTimers[dId]=setTimeout(()=>{const d=document.getElementById(dId);if(d)d.style.display='none'},200)}
+function optsFmt(){return FMTS.map(f=>f.label)}
+function optsChan(){return['📸 Instagram Reels','📖 Instagram Stories','📸 Instagram Feed','📸 Instagram Collab','📸+💼 Instagram + LinkedIn']}
+function optsCta(){return['Guardá este video 📌','DM LOTE para el análisis completo 💬','Seguinos para más 🎯','Escribinos por DM 💬','¿Tenés un proyecto? Hablemos →','Swipe para ver más →','Respondé en los comentarios 👇','DM MAPA para el análisis gratis','Activá las notificaciones 🔔']}
+function optsSerie(){return SERIES.map(s=>s.name)}
+function optsPilar(){return PILARES.map(p=>p.name)}
+
+function updPilarPrev(){
+  const val=document.getElementById('ePilar')?.value||'';
+  const row=document.getElementById('plPrev'),dot=document.getElementById('plDot'),lbl=document.getElementById('plLbl');
+  const pl=getPilarByName(val);
+  if(!val||!pl){if(row)row.style.display='none';return;}
+  if(row)row.style.display='flex';
+  if(dot)dot.style.background=pl.color;
+  if(lbl)lbl.textContent=pl.name;
+}
+
+// ═══ FILTERS ══════════════════════════════════════════════
+function renderEtapaFilters(){
+  const c=document.getElementById('etapaFilters');if(!c)return;
+  let h=`<button class="phase-btn ${!activeEtapa?'act':''}" style="${!activeEtapa?'border-color:var(--teal);color:var(--white)':''}" onclick="setEtapa(null)">Todas</button>`;
+  ETAPAS.forEach(e=>{const a=activeEtapa===e.key;h+=`<button class="phase-btn ${a?'act':''}" style="${a?`background:${e.color};border-color:${e.color};color:#fff`:''}" onclick="setEtapa('${e.key}')">${e.name}</button>`;});
+  c.innerHTML=h;
+}
+function setEtapa(k){activeEtapa=k;renderEtapaFilters();renderAll()}
+
+function renderPilarFilters(){
+  const c=document.getElementById('pilarFilters');if(!c)return;
+  c.innerHTML=PILARES.map(pl=>{
+    const on=activePilares.has(pl.key);
+    return`<button class="ff ${on?'on':''}" style="color:${pl.color};border-color:${on?pl.color:'var(--line)'};${on?`box-shadow:0 0 0 1px ${pl.color}22`:''}" onclick="togPilar('${pl.key}')">${pl.name}</button>`;
+  }).join('');
+}
+function togPilar(k){activePilares.has(k)?activePilares.delete(k):activePilares.add(k);renderPilarFilters();renderAll()}
+
+function renderFmtFilters(){
+  const c=document.getElementById('fmtFilters');if(!c)return;
+  c.innerHTML=FMTS.map(f=>{
+    const on=activeFmts.has(f.key);
+    return`<button class="ff ${on?'on':''}" style="color:${f.color};border-color:${on?f.color:'var(--line)'};${on?`box-shadow:0 0 0 1px ${f.color}22`:''}" onclick="togFmt('${f.key}')">${f.label}</button>`;
+  }).join('');
+}
+function togFmt(k){activeFmts.has(k)?activeFmts.delete(k):activeFmts.add(k);renderFmtFilters();renderAll()}
+
+function getVisible(){
+  return posts.filter(p=>{
+    if(activeEtapa){const m=MONTHS.find(m=>p.date.startsWith(m.key));if(!m||m.etapa!==activeEtapa)return false;}
+    const fk=getFmt(p.fmt).key||p.fmt;if(!activeFmts.has(fk)&&!activeFmts.has(p.fmt))return false;
+    if(!activePilares.has(p.pilar||'story'))return false;
+    return true;
+  });
+}
+
+// ═══ STATS BAR ════════════════════════════════════════════
+function renderStats(){
+  const v=getVisible();
+  const done=v.filter(p=>p.status==='done').length;
+  const prog=v.filter(p=>p.status==='inprogress').length;
+  const pauta=v.filter(p=>p.pauta?.on).length;
+  const usd=v.filter(p=>p.pauta?.on).reduce((s,p)=>s+(parseFloat(p.pauta?.usd)||0),0);
+  const byPilar=PILARES.map(pl=>({pl,n:v.filter(p=>p.pilar===pl.key).length})).filter(x=>x.n>0);
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat"><span class="stat-n">${v.length}</span><span class="stat-l">piezas</span></div>
+    <div class="stat"><span class="stat-n" style="color:#22c55e">${done}</span><span class="stat-l">publicadas</span></div>
+    <div class="stat"><span class="stat-n" style="color:#f59e0b">${prog}</span><span class="stat-l">en producción</span></div>
+    ${byPilar.map(x=>`<div class="stat"><span class="stat-n" style="color:${x.pl.color}">${x.n}</span><span class="stat-l">${x.pl.name}</span></div>`).join('')}
+    ${pauta>0?`<div class="stat"><span class="stat-n" style="color:var(--sage)">$${usd.toLocaleString('en-US')}</span><span class="stat-l">USD pauta</span></div>`:''}`;
+}
+
+// ═══ MONTH NAV ════════════════════════════════════════════
+function renderNav(){
+  document.getElementById('monthNav').innerHTML=MONTHS.map(m=>{
+    const et=getEtapa(m.etapa);const isCur=m.key===curMonth;
+    const cnt=posts.filter(p=>p.date.startsWith(m.key)).length;
+    return`<button class="mnav-btn ${isCur?'active':''}" style="${isCur?`border-bottom-color:${et.color}`:''}" onclick="scrollMo('${m.key}')">
+      <span>${m.name}</span>
+      <span class="mnav-sub" style="color:${et.color}">${et.name}</span>
+      <span style="font-size:9px;color:var(--muted)">${cnt} piezas</span>
+      <button class="mnav-del" onclick="event.stopPropagation();delMonth('${m.key}')" title="Quitar mes">✕</button>
+    </button>`;
+  }).join('');
+}
+function scrollMo(key){curMonth=key;renderNav();const el=document.getElementById('mo-'+key);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+
+// ═══ CALENDAR ═════════════════════════════════════════════
+const DOW=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+function isToday(ds){const t=new Date();return ds===`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`}
+
+function renderCalWrap(){
+  const vp=getVisible();
+  document.getElementById('calWrap').innerHTML=MONTHS.map(m=>{
+    const et=getEtapa(m.etapa);
+    const mp=vp.filter(p=>p.date.startsWith(m.key));
+    const dp={};mp.forEach(p=>{const d=parseInt(p.date.split('-')[2]);if(!dp[d])dp[d]=[];dp[d].push(p);});
+    const weeks=[];let w=[];
+    for(let i=0;i<m.startDow;i++)w.push(null);
+    for(let d=1;d<=m.days;d++){w.push(d);if(w.length===7){weeks.push(w);w=[];}}
+    if(w.length){while(w.length<7)w.push(null);weeks.push(w);}
+    return`<div id="mo-${m.key}">
+      <div class="month-header">
+        <span class="month-name">${m.name}</span><span class="month-year">${m.year}</span>
+        <span class="month-phase-tag" style="color:${et.color};border-color:${et.color}40" onclick="openPhPicker(event,'${m.key}')">${et.name} ▾</span>
+      </div>
+      <div class="month-sub">
+        <span class="month-sub-count">${mp.length} piezas</span>
+        <button class="btn" style="padding:4px 12px;font-size:8px" onclick="openAdd('${m.key}',null)">+ Agregar</button>
+      </div>
+      <div class="day-header-row"><div class="day-head"></div>${DOW.map(d=>`<div class="day-head">${d}</div>`).join('')}</div>
+      ${weeks.map((wk,wi)=>`<div class="week-row"><div class="week-label">S${wi+1}</div>${wk.map(day=>{
+        if(!day)return`<div class="day-cell empty"></div>`;
+        const cells=dp[day]||[];
+        const dow=new Date(parseInt(m.year),parseInt(m.key.split('-')[1])-1,day).getDay();
+        const ds=`${m.key}-${String(day).padStart(2,'0')}`;
+        const tdy=isToday(ds);
+        return`<div class="day-cell${dow===0||dow===6?' weekend':''}${tdy?' today':''}"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="this.classList.remove('drag-over');onDrop(event,'${ds}')"
+          onclick="openAdd('${m.key}','${ds}')">
+          <div class="day-num${tdy?' today-num':''}">${day}</div>
+          ${cells.map(p=>renderChip(p)).join('')}
+          ${cells.length===0?`<button class="add-btn" onclick="event.stopPropagation();openAdd('${m.key}','${ds}')">+</button>`:''}
+        </div>`;
+      }).join('')}</div>`).join('')}
+      <div style="height:24px;border-bottom:2px solid var(--line);margin-bottom:32px"></div>
+    </div>`;
+  }).join('');
+}
+
+// CHIP — color dominante = PILAR
+function renderChip(p){
+  const pl=getPilar(p.pilar||'story');
+  const f=getFmt(p.fmt);
+  const bg=hex2rgba(pl.color,.12);
+  const ap=p.approval==='ok'?'✓':p.approval==='changes'?'✗':p.approval==='review'?'○':'';
+  const done=p.status==='done';
+  return`<div class="chip${done?' done':''}" draggable="true"
+    style="border-left-color:${pl.color};background:${bg}"
+    ondragstart="dragId='${p.id}'"
+    onclick="event.stopPropagation();openEdit('${p.id}')">
+    <div class="chip-row">
+      <span class="chip-fmt" style="color:${pl.color}">${f.label}</span>
+      ${ap?`<span class="chip-ap" style="color:${p.approval==='ok'?'#16a34a':p.approval==='changes'?'#dc2626':'#f59e0b'}">${ap}</span>`:''}
+      ${p.pauta?.on?`<span class="chip-pauta">💰</span>`:''}
+    </div>
+    <div class="chip-t">${p.title.substring(0,52)}${p.title.length>52?'…':''}</div>
+    <div class="chip-pilar" style="color:${pl.color}">${pl.name}</div>
+  </div>`;
+}
+
+// ═══ DRAG & DROP ══════════════════════════════════════════
+function onDrop(e,ds){e.preventDefault();if(!dragId)return;const p=posts.find(x=>x.id===dragId);if(p){p.date=ds;save();}dragId=null;renderAll()}
+
+// ═══ MODAL ════════════════════════════════════════════════
+function openAdd(mKey,ds){
+  editId=null;KV={};
+  document.getElementById('mainTitle').textContent='Nueva pieza';
+  document.getElementById('delBtn').style.display='none';
+  clearForm();
+  if(ds)document.getElementById('eDate').value=ds;
+  fillSel('ePhase');fillSel('amEtapa');
+  if(mKey){const m=MONTHS.find(x=>x.key===mKey);if(m)document.getElementById('ePhase').value=m.etapa;}
+  document.getElementById('pautaFlds').style.display='none';
+  renderKpis('reel');
+  document.getElementById('mainModal').classList.add('open');
+}
+function openEdit(id){
+  const p=posts.find(x=>x.id===id);if(!p)return;
+  editId=id;KV=p.kpis||{};
+  document.getElementById('mainTitle').textContent='Editar pieza';
+  document.getElementById('delBtn').style.display='inline-flex';
+  fillSel('ePhase');
+  document.getElementById('eDate').value=p.date||'';
+  document.getElementById('eFmt').value=getFmt(p.fmt).label||p.fmt||'';
+  document.getElementById('ePilar').value=getPilar(p.pilar||'story').name;
+  document.getElementById('eSerie').value=getSerie(p.serie||'').name||p.serie||'';
+  document.getElementById('eTitle').value=p.title||'';
+  document.getElementById('eHook').value=p.hook||'';
+  document.getElementById('eCopy').value=p.copy||'';
+  document.getElementById('eCta').value=p.cta||'';
+  document.getElementById('eChan').value=p.channel||'';
+  document.getElementById('eResp').value=p.responsable||'';
+  document.getElementById('eStatus').value=p.status||'pending';
+  document.getElementById('eApproval').value=p.approval||'none';
+  document.getElementById('ePhase').value=p.etapa||'';
+  document.getElementById('eLink').value=p.link||'';
+  document.getElementById('eNotes').value=p.notes||'';
+  if(p.pauta?.on){document.getElementById('ePautaOn').checked=true;document.getElementById('pautaFlds').style.display='flex';document.getElementById('ePautaUSD').value=p.pauta.usd||'';document.getElementById('ePautaObj').value=p.pauta.obj||'awareness';document.getElementById('ePautaPlat').value=p.pauta.plat||'meta';document.getElementById('ePautaDias').value=p.pauta.dias||7;updARS();}
+  else{document.getElementById('ePautaOn').checked=false;document.getElementById('pautaFlds').style.display='none';}
+  updPilarPrev();renderKpis(p.fmt);
+  document.getElementById('mainModal').classList.add('open');
+}
+function closeMain(){document.getElementById('mainModal').classList.remove('open');editId=null}
+function clearForm(){
+  ['eDate','eFmt','ePilar','eSerie','eTitle','eHook','eCopy','eCta','eChan','eLink','eNotes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('eStatus').value='pending';document.getElementById('eApproval').value='none';document.getElementById('ePautaOn').checked=false;
+  const row=document.getElementById('plPrev');if(row)row.style.display='none';
+}
+function fillSel(id){
+  const sel=document.getElementById(id);if(!sel)return;
+  sel.innerHTML=ETAPAS.map(e=>`<option value="${e.key}">${e.name}</option>`).join('');
+}
+function savePost(){
+  const fLabel=document.getElementById('eFmt').value;
+  const pName=document.getElementById('ePilar').value;
+  const pl=getPilarByName(pName)||getPilar('story');
+  const sLabel=document.getElementById('eSerie').value;
+  const sr=SERIES.find(s=>s.name===sLabel);
+  const pon=document.getElementById('ePautaOn')?.checked;
+  const np={
+    id:editId||('u_'+Date.now()),
+    date:document.getElementById('eDate').value,
+    fmt:getFmt(fLabel).key||fLabel,
+    pilar:pl.key,
+    serie:sr?.key||sLabel||'story',
+    title:document.getElementById('eTitle').value,
+    hook:document.getElementById('eHook').value,
+    copy:document.getElementById('eCopy').value,
+    cta:document.getElementById('eCta').value,
+    channel:document.getElementById('eChan').value,
+    responsable:document.getElementById('eResp').value,
+    status:document.getElementById('eStatus').value,
+    approval:document.getElementById('eApproval').value,
+    etapa:document.getElementById('ePhase').value,
+    link:document.getElementById('eLink').value,
+    notes:document.getElementById('eNotes').value,
+    kpis:KV,
+    pauta:pon?{on:true,usd:parseFloat(document.getElementById('ePautaUSD')?.value)||0,obj:document.getElementById('ePautaObj')?.value,plat:document.getElementById('ePautaPlat')?.value,dias:parseInt(document.getElementById('ePautaDias')?.value)||7}:{on:false},
+  };
+  if(editId){const i=posts.findIndex(p=>p.id===editId);if(i!==-1)posts[i]=np;}else posts.push(np);
+  save();closeMain();renderAll();
+}
+function delPost(){if(!editId)return;if(!confirm('¿Eliminar esta pieza?'))return;posts=posts.filter(p=>p.id!==editId);save();closeMain();renderAll()}
+
+// ═══ MANAGERS ═════════════════════════════════════════════
+function openMgr(t){
+  if(t==='pilar'){renderPilarList();document.getElementById('pilarMgr').classList.add('open');}
+  else{renderEtapaList();document.getElementById('etapaMgr').classList.add('open');}
+}
+function closeMgr(t){
+  if(t==='pilar'){document.getElementById('pilarMgr').classList.remove('open');activePilares=new Set(PILARES.map(p=>p.key));}
+  else document.getElementById('etapaMgr').classList.remove('open');
+  renderAll();
+}
+function renderPilarList(){
+  document.getElementById('pilarList').innerHTML=PILARES.map((p,i)=>`
+    <div class="ph-row">
+      <div class="ph-dot" style="background:${p.color}"></div>
+      <input type="color" class="ph-ci" value="${p.color}" onchange="PILARES[${i}].color=this.value;renderPilarList()">
+      <input class="ph-ni" value="${p.name}" oninput="PILARES[${i}].name=this.value">
+      <span class="ph-key">${p.key}</span>
+      <button class="ph-del" onclick="delPilar(${i})">✕</button>
+    </div>`).join('');
+}
+function addPilar(){
+  const n=document.getElementById('newPilarName')?.value.trim();
+  const c=document.getElementById('newPilarColor')?.value||'#007f88';
+  if(!n)return;
+  const k=n.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  if(PILARES.find(p=>p.key===k)){alert('Ya existe un pilar con ese nombre.');return;}
+  PILARES.push({key:k,name:n,color:c});activePilares.add(k);
+  document.getElementById('newPilarName').value='';renderPilarList();
+}
+function delPilar(i){if(PILARES.length<=1){alert('Necesitás al menos un pilar.');return;}const k=PILARES[i].key;PILARES.splice(i,1);activePilares.delete(k);renderPilarList()}
+function renderEtapaList(){
+  document.getElementById('etapaList').innerHTML=ETAPAS.map((e,i)=>`
+    <div class="ph-row">
+      <div class="ph-dot" style="background:${e.color}"></div>
+      <input type="color" class="ph-ci" value="${e.color}" onchange="ETAPAS[${i}].color=this.value;renderEtapaList()">
+      <input class="ph-ni" value="${e.name}" oninput="ETAPAS[${i}].name=this.value">
+      <span class="ph-key">${e.key}</span>
+      <button class="ph-del" onclick="delEtapa(${i})">✕</button>
+    </div>`).join('');
+}
+function addEtapa(){
+  const n=document.getElementById('newEtapaName')?.value.trim();
+  const c=document.getElementById('newEtapaColor')?.value||'#007f88';
+  if(!n)return;
+  const k=n.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  ETAPAS.push({key:k,name:n,color:c});
+  document.getElementById('newEtapaName').value='';renderEtapaList();
+}
+function delEtapa(i){if(ETAPAS.length<=1){alert('Necesitás al menos una etapa.');return;}ETAPAS.splice(i,1);renderEtapaList()}
+
+// ═══ PHASE PICKER ═════════════════════════════════════════
+function openPhPicker(e,mKey){
+  e.stopPropagation();
+  const d=document.getElementById('phDrop');
+  d.innerHTML=ETAPAS.map(et=>`<button class="ph-opt" style="color:${et.color}" onclick="setMoEtapa('${mKey}','${et.key}');closePhDrop()">${et.name}</button>`).join('');
+  d.style.left=e.clientX+'px';d.style.top=(e.clientY+4)+'px';d.classList.add('open');
+  setTimeout(()=>document.addEventListener('click',closePhDrop,{once:true}),50);
+}
+function closePhDrop(){document.getElementById('phDrop')?.classList.remove('open')}
+function setMoEtapa(mk,ek){const m=MONTHS.find(x=>x.key===mk);if(m)m.etapa=ek;save();renderAll()}
+
+// ═══ ADD/DELETE MONTH ═════════════════════════════════════
+function openAddMonth(){fillSel('amEtapa');document.getElementById('addMonthModal').classList.add('open')}
+function closeAddMonth(){document.getElementById('addMonthModal').classList.remove('open')}
+function doAddMonth(){
+  const m=document.getElementById('amMes')?.value,y=document.getElementById('amAno')?.value||'2026';
+  const et=document.getElementById('amEtapa')?.value||ETAPAS[0]?.key;
+  const key=`${y}-${m}`;
+  if(MONTHS.find(x=>x.key===key)){alert('Ese mes ya existe.');return;}
+  const d=new Date(parseInt(y),parseInt(m)-1,1);
+  const days=new Date(parseInt(y),parseInt(m),0).getDate();
+  const raw=d.getDay();const startDow=raw===0?6:raw-1;
+  const names=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  MONTHS.push({key,name:names[parseInt(m)-1],year:y,etapa:et,days,startDow});
+  MONTHS.sort((a,b)=>a.key<b.key?-1:1);
+  closeAddMonth();save();renderAll();
+}
+function delMonth(k){if(!confirm(`¿Quitar ${k} del calendario?`))return;MONTHS=MONTHS.filter(m=>m.key!==k);save();renderAll()}
+
+// ═══ RENDER ALL ═══════════════════════════════════════════
+function renderAll(){renderEtapaFilters();renderPilarFilters();renderFmtFilters();renderStats();renderNav();renderCalWrap()}
+
+// ═══ EXPORT CSV ═══════════════════════════════════════════
+function exportCSV(){
+  const h=['ID','Fecha','Formato','Pilar','Serie','Título','Hook','Copy','CTA','Canal','Estado','Aprobación','Etapa','Responsable','Link','Notas','Pauta USD'];
+  const rows=posts.map(p=>[p.id,p.date,getFmt(p.fmt).label,getPilar(p.pilar||'story').name,getSerie(p.serie||'').name||p.serie,p.title,p.hook,(p.copy||'').replace(/\n/g,' '),p.cta,p.channel,p.status,p.approval,p.etapa,p.responsable||'',p.link||'',(p.notes||'').replace(/\n/g,' '),p.pauta?.on?(p.pauta.usd||0):''].map(v=>`"${String(v||'').replace(/"/g,'""')}"`));
+  const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='fotlibre_calendario_2026.csv';a.click();
+}
+
+// ═══ PDF ══════════════════════════════════════════════════
+function printCal(){
+  const t=document.createElement('div');
+  t.innerHTML=`<div style="position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#131f22;border:1px solid #2a4048;padding:32px;max-width:480px;text-align:center;font-family:'Archivo',sans-serif">
+      <div style="font-size:32px;margin-bottom:16px">📄</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:12px">Exportar a PDF</div>
+      <div style="font-size:13px;color:#5a7a82;line-height:1.6;margin-bottom:20px">Seleccioná <strong style="color:#fff">Guardar como PDF</strong>.<br>Orientación <strong style="color:#fff">Horizontal</strong> · Escala <strong style="color:#fff">60–80%</strong></div>
+      <button onclick="this.closest('div').parentElement.remove();window.print();" style="background:#007f88;color:white;border:none;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Abrir diálogo →</button>
+      <button onclick="this.closest('div').parentElement.remove();" style="background:transparent;color:#5a7a82;border:none;padding:10px;cursor:pointer;font-family:inherit">Cancelar</button>
+    </div>
+  </div>`;
+  document.body.appendChild(t);
+}
+
+// ═══ GOOGLE SHEETS SYNC ═══════════════════════════════════
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbys1HKjDTkdx6xBmX7LCNyTqTSYyIi-_VmOhancCoul9j76YvH1yf-Z-W8B8OOHwsCIAQ/exec";
+
+// indicador de estado de sync
+function setSyncStatus(state, msg){
+  let el=document.getElementById('syncStatus');
+  if(!el){
+    el=document.createElement('div');
+    el.id='syncStatus';
+    el.style.cssText='position:fixed;bottom:52px;right:12px;z-index:999;padding:5px 12px;font-size:11px;font-family:Archivo,sans-serif;border:1px solid;transition:all .3s';
+    document.body.appendChild(el);
+  }
+  const styles={
+    loading:{bg:'#1f3338',color:'#00a8b4',border:'#2a4048',text:'⟳ '+msg},
+    ok:     {bg:'#0a2a1a',color:'#22c55e',border:'#16a34a',text:'✓ '+msg},
+    error:  {bg:'#2a1010',color:'#f87171',border:'#dc2626',text:'✗ '+msg},
+  };
+  const s=styles[state]||styles.loading;
+  el.style.background=s.bg; el.style.color=s.color; el.style.borderColor=s.border;
+  el.textContent=s.text;
+  if(state==='ok') setTimeout(()=>{if(el)el.style.opacity='0';},3000);
+  else el.style.opacity='1';
+}
+
+// GUARDAR — manda todos los posts al Sheet
+async function save(){
+  // guardar config local siempre (pilares, etapas, meses — no van al sheet)
+  try{
+    localStorage.setItem('fl_pilares_v4',JSON.stringify(PILARES));
+    localStorage.setItem('fl_etapas_v4',JSON.stringify(ETAPAS));
+    localStorage.setItem('fl_months_v4',JSON.stringify(MONTHS));
+  }catch(e){}
+  // sync posts al sheet
+  setSyncStatus('loading','Guardando...');
+  try{
+    const resp = await fetch(getSheetUrl(), {
+      method:'POST',
+      body: JSON.stringify({action:'batch', posts}),
+    });
+    const data = await resp.json();
+    if(data.ok) setSyncStatus('ok','Guardado en Sheet ✓');
+    else setSyncStatus('error','Error: '+data.error);
+  }catch(e){
+    setSyncStatus('error','Sin conexión — guardado local');
+    // fallback a localStorage si no hay internet
+    try{
+      localStorage.setItem('fl_edited_v4',JSON.stringify(posts));
+    }catch(le){}
+  }
+}
+
+// CARGAR — trae los posts del Sheet al abrir el calendario
+async function load(){
+  // cargar config local
+  try{
+    const pl=localStorage.getItem('fl_pilares_v4');
+    if(pl){PILARES.length=0;JSON.parse(pl).forEach(p=>PILARES.push(p));activePilares=new Set(PILARES.map(p=>p.key));}
+    const et=localStorage.getItem('fl_etapas_v4');
+    if(et){ETAPAS.length=0;JSON.parse(et).forEach(e=>ETAPAS.push(e));}
+    const mo=localStorage.getItem('fl_months_v4');
+    if(mo){MONTHS.length=0;JSON.parse(mo).forEach(m=>MONTHS.push(m));}
+  }catch(e){}
+
+  setSyncStatus('loading','Cargando desde Sheet...');
+  try{
+    const resp = await fetch(getSheetUrl()+'?t='+Date.now());
+    const data = await resp.json();
+    if(Array.isArray(data) && data.length>0){
+      posts = data;
+      setSyncStatus('ok','Calendario actualizado');
+      localStorage.setItem(LS_SYNC, new Date().toLocaleString('es-AR'));
+    } else {
+      // Sheet vacío — cargar datos compilados y subirlos
+      posts = [...COMPILED];
+      setSyncStatus('loading','Primera vez — subiendo datos...');
+      await fetch(SHEET_URL, {
+        method:'POST',
+        body: JSON.stringify({action:'batch', posts}),
+      });
+      setSyncStatus('ok','Datos iniciales cargados ✓');
+    }
+  }catch(e){
+    // sin internet — usar datos compilados o localStorage
+    setSyncStatus('error','Sin conexión — modo offline');
+    posts = [...COMPILED];
+    try{
+      const ed=localStorage.getItem('fl_edited_v4');
+      if(ed) posts=JSON.parse(ed);
+    }catch(le){}
+  }
+  renderAll();
+}
+
+// RESET — restaura datos originales en el Sheet
+async function reset(){
+  if(!confirm('¿Restaurar el calendario a los datos originales?\nEsto borra todos los cambios en el Sheet.'))return;
+  posts=[...COMPILED];
+  PILARES.length=0;[{key:'edu',name:'Educación & Capacitación',color:'#007f88'},{key:'casos',name:'Casos de Éxito',color:'#c07830'},{key:'ref',name:'Referentes & VLOG',color:'#b1b297'},{key:'story',name:'Story de soporte',color:'#5a4a8a'}].forEach(p=>PILARES.push(p));
+  ETAPAS.length=0;[{key:'reactivacion',name:'Reactivación',color:'#007f88'},{key:'alwayson',name:'Always On',color:'#324d54'},{key:'campana',name:'Campaña',color:'#b1b297'}].forEach(e=>ETAPAS.push(e));
+  MONTHS.length=0;[{key:'2026-05',name:'Mayo',year:'2026',etapa:'reactivacion',days:31,startDow:4},{key:'2026-06',name:'Junio',year:'2026',etapa:'alwayson',days:30,startDow:0},{key:'2026-07',name:'Julio',year:'2026',etapa:'alwayson',days:31,startDow:2}].forEach(m=>MONTHS.push(m));
+  activePilares=new Set(PILARES.map(p=>p.key));
+  ['fl_pilares_v4','fl_etapas_v4','fl_months_v4','fl_edited_v4'].forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});
+  await save();
+  renderAll();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{FMTS.forEach(f=>activeFmts.add(f.key));load();});
+
+// ═══ CONFIG / SHEETS UI ═══════════════════════════════════
+const LS_URL  = 'fl_sheet_url';
+const LS_SYNC = 'fl_last_sync';
+
+function getSheetUrl(){ return localStorage.getItem(LS_URL)||SHEET_URL; }
+
+function openConfig(){
+  const url = getSheetUrl();
+  document.getElementById('cfgUrl').value = url;
+  renderCfgStatus();
+  const ls = localStorage.getItem(LS_SYNC);
+  const syncEl = document.getElementById('cfgLastSync');
+  if(syncEl) syncEl.textContent = ls ? 'Última sincronización: '+ls : '';
+  document.getElementById('configModal').classList.add('open');
+}
+function closeConfig(){ document.getElementById('configModal').classList.remove('open'); }
+
+function renderCfgStatus(){
+  const el  = document.getElementById('cfgStatus');
+  const url = getSheetUrl();
+  const connected = url && url.includes('script.google.com');
+  if(!el) return;
+  if(connected){
+    el.style.background='#071a0f'; el.style.borderColor='#16a34a'; el.style.color='#22c55e';
+    el.innerHTML='<span style="font-size:16px">●</span> Conectado a Google Sheets';
+    document.getElementById('cfgBtn').style.color='#22c55e';
+    document.getElementById('cfgBtn').style.borderColor='rgba(34,197,94,.4)';
+  } else {
+    el.style.background='#1a0a0a'; el.style.borderColor='#dc2626'; el.style.color='#f87171';
+    el.innerHTML='<span style="font-size:16px">●</span> Sin conexión — usá el botón de abajo para conectar';
+    document.getElementById('cfgBtn').style.color='#f87171';
+    document.getElementById('cfgBtn').style.borderColor='rgba(220,38,38,.4)';
+  }
+}
+
+async function cfgConnect(){
+  const url = document.getElementById('cfgUrl').value.trim();
+  if(!url || !url.includes('script.google.com')){
+    alert('La URL no parece válida. Debe empezar con https://script.google.com/macros/s/...');
+    return;
+  }
+  localStorage.setItem(LS_URL, url);
+  setSyncStatus('loading','Conectando...');
+  try{
+    const resp = await fetch(url+'?t='+Date.now());
+    const data = await resp.json();
+    if(Array.isArray(data)){
+      if(data.length > 0){
+        posts = data;
+        setSyncStatus('ok','Conectado ✓ — '+data.length+' piezas cargadas');
+      } else {
+        // Sheet vacío — subir datos locales
+        await fetch(url, {method:'POST', body: JSON.stringify({action:'batch', posts})});
+        setSyncStatus('ok','Conectado ✓ — datos subidos al Sheet');
+      }
+      const now = new Date().toLocaleString('es-AR');
+      localStorage.setItem(LS_SYNC, now);
+      document.getElementById('cfgLastSync').textContent = 'Última sincronización: '+now;
+      renderCfgStatus();
+      renderAll();
+    }
+  } catch(e){
+    setSyncStatus('error','No se pudo conectar — revisá la URL');
+    alert('Error de conexión. Verificá:\n1. Que la URL sea correcta\n2. Que el acceso sea "Cualquier persona" en Apps Script');
+  }
+}
+
+async function cfgPushLocal(){
+  if(!confirm('¿Subir los datos actuales del calendario al Sheet? Esto sobreescribirá lo que hay en el Sheet.')) return;
+  const url = getSheetUrl();
+  setSyncStatus('loading','Subiendo al Sheet...');
+  try{
+    const resp = await fetch(url, {method:'POST', body: JSON.stringify({action:'batch', posts})});
+    const data = await resp.json();
+    if(data.ok){
+      setSyncStatus('ok','Datos subidos al Sheet ✓');
+      const now = new Date().toLocaleString('es-AR');
+      localStorage.setItem(LS_SYNC, now);
+      document.getElementById('cfgLastSync').textContent = 'Última sincronización: '+now;
+    }
+  }catch(e){ setSyncStatus('error','Error al subir datos'); }
+}
+
+async function cfgPullRemote(){
+  if(!confirm('¿Traer los datos del Sheet? Esto reemplazará los datos actuales del calendario.')) return;
+  const url = getSheetUrl();
+  setSyncStatus('loading','Trayendo del Sheet...');
+  try{
+    const resp = await fetch(url+'?t='+Date.now());
+    const data = await resp.json();
+    if(Array.isArray(data) && data.length > 0){
+      posts = data;
+      setSyncStatus('ok',data.length+' piezas cargadas del Sheet ✓');
+      const now = new Date().toLocaleString('es-AR');
+      localStorage.setItem(LS_SYNC, now);
+      document.getElementById('cfgLastSync').textContent = 'Última sincronización: '+now;
+      renderAll();
+    }
+  }catch(e){ setSyncStatus('error','Error al traer datos del Sheet'); }
+}
+
+function cfgDisconnect(){
+  if(!confirm('¿Desconectar el Sheet? El calendario seguirá funcionando en modo local.')) return;
+  localStorage.removeItem(LS_URL);
+  renderCfgStatus();
+  setSyncStatus('error','Desconectado — modo local');
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(m=>m.classList.remove('open'));});
+</script>
+
+<button onclick="reset()" style="position:fixed;bottom:12px;right:12px;z-index:999;padding:6px 12px;background:var(--darker);border:1px solid var(--line);color:var(--muted);font-size:11px;cursor:pointer;font-family:'Archivo',sans-serif" title="Restaurar datos originales">↺ Reset</button>
+
+<!-- CONFIG MODAL -->
+<div class="overlay" id="configModal" onclick="if(event.target===this)closeConfig()">
+ <div class="mbox" style="max-width:520px">
+  <div class="mhdr">
+   <span class="mhdr-t">⚙ Conexión con Google Sheets</span>
+   <button class="mcls" onclick="closeConfig()">✕</button>
+  </div>
+  <div class="mbody">
+   <div id="cfgStatus" style="padding:12px 14px;margin-bottom:4px;font-size:13px;border:1px solid;display:flex;align-items:center;gap:10px"></div>
+   <div class="f-row" style="margin-top:8px">
+    <label class="f-lbl">URL del Apps Script</label>
+    <input class="f-in" id="cfgUrl" placeholder="https://script.google.com/macros/s/.../exec" style="font-size:11px">
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">Pegá acá la URL que obtuviste al publicar el script en Apps Script.</div>
+   </div>
+   <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+    <button class="btn btn-teal" style="width:100%;padding:10px;font-size:11px" onclick="cfgConnect()">Conectar y sincronizar</button>
+    <button class="btn" style="width:100%;padding:8px;font-size:11px" onclick="cfgPushLocal()">↑ Subir datos locales al Sheet</button>
+    <button class="btn" style="width:100%;padding:8px;font-size:11px" onclick="cfgPullRemote()">↓ Traer datos del Sheet</button>
+   </div>
+   <div style="margin-top:16px;padding:12px;background:var(--mid);border:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.7">
+    <strong style="color:var(--off)">¿Cómo conseguir la URL?</strong><br>
+    1. Abrí tu Google Sheet → Extensiones → Apps Script<br>
+    2. Hacé clic en Implementar → Nueva implementación<br>
+    3. Tipo: Aplicación web · Quién tiene acceso: <strong style="color:var(--teal2)">Cualquier persona</strong><br>
+    4. Copiá la URL que aparece y pegala arriba
+   </div>
+   <div style="margin-top:12px;border-top:1px solid var(--line);padding-top:12px">
+    <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#dc2626;margin-bottom:8px">Zona de peligro</div>
+    <button class="btn" style="width:100%;padding:8px;font-size:11px;border-color:rgba(220,38,38,.3);color:#dc2626" onclick="cfgDisconnect()">✕ Desconectar Sheet</button>
+   </div>
+  </div>
+  <div class="mftr">
+   <div id="cfgLastSync" style="font-size:10px;color:var(--muted);margin-right:auto;align-self:center"></div>
+   <button class="btn" onclick="closeConfig()">Cerrar</button>
+  </div>
+ </div>
+</div>
+
+</body>
+</html>
