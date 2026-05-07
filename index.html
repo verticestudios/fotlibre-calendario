@@ -906,6 +906,25 @@ document.addEventListener('DOMContentLoaded',()=>{FMTS.forEach(f=>activeFmts.add
 // ═══ NORMALIZAR POSTS DEL SHEET ═══════════════════════════
 // Los datos del Sheet vienen como strings — los normalizamos
 // para que el calendario los reconozca correctamente
+
+// Convierte cualquier formato de fecha a YYYY-MM-DD
+function normalizeDate(d){
+  if(!d) return '';
+  // Ya está en formato correcto
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+  // Viene como "Tue May 12 2026 00:00:00 GMT-0300..."
+  try{
+    const dt = new Date(d);
+    if(!isNaN(dt.getTime())){
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth()+1).padStart(2,'0');
+      const day = String(dt.getDate()).padStart(2,'0');
+      return y+'-'+m+'-'+day;
+    }
+  }catch(e){}
+  return d;
+}
+
 function normalizePostsFromSheet(data){
   return data.map(p => {
     // pauta y kpis pueden venir como string JSON
@@ -921,7 +940,7 @@ function normalizePostsFromSheet(data){
     if(!kpis || typeof kpis !== 'object') kpis = {};
     return {
       id:          String(p.id||'').trim(),
-      date:        String(p.date||'').trim(),
+      date:        normalizeDate(String(p.date||'').trim()),
       fmt:         String(p.fmt||'reel').trim(),
       pilar:       String(p.pilar||'story').trim(),
       serie:       String(p.serie||'story').trim(),
