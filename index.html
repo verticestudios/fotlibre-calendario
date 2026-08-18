@@ -162,6 +162,7 @@ header{position:sticky;top:0;z-index:400;background:rgba(10,18,20,.97);backdrop-
   <div class="h-right">
     <button class="btn btn-outline" onclick="openMgr('pilar')">⊞ Pilares</button>
     <button class="btn btn-outline" onclick="openMgr('etapa')">⚙ Etapas</button>
+    <button class="btn btn-outline" onclick="openMgr('plat')" style="border-color:rgba(0,168,180,.4);color:#00a8b4">📡 Plataformas</button>
     <button class="btn btn-outline" id="cfgBtn" onclick="openConfig()">⚙ Sheets</button>
     <button class="btn" onclick="openAddMonth()">+ Mes</button>
     <button class="btn" onclick="exportCSV()">↓ CSV</button>
@@ -173,6 +174,7 @@ header{position:sticky;top:0;z-index:400;background:rgba(10,18,20,.97);backdrop-
 <div class="controls">
   <div class="ctrl-group"><span class="ctrl-label">Etapa</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="etapaFilters"></div></div>
   <div class="ctrl-group"><span class="ctrl-label">Pilar</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="pilarFilters"></div></div>
+  <div class="ctrl-group"><span class="ctrl-label">Plataforma</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="platFilters"></div></div>
   <div class="ctrl-group"><span class="ctrl-label">Formato</span><div style="display:flex;gap:4px;flex-wrap:wrap" id="fmtFilters"></div></div>
 </div>
 <div class="stats-bar" id="statsBar"></div>
@@ -197,12 +199,25 @@ header{position:sticky;top:0;z-index:400;background:rgba(10,18,20,.97);backdrop-
    <div class="f-row"><label class="f-lbl">Serie / Contenido</label>
     <div class="cw"><input class="f-in" id="eSerie" placeholder="La Pregunta del Millón, Lupa de los Barrios..." autocomplete="off" oninput="cOpen('eSerie','dSerie',optsSerie)" onfocus="cOpen('eSerie','dSerie',optsSerie)" onblur="cSched('dSerie')"><div class="cdrop" id="dSerie"></div></div></div>
    <div class="f-row"><label class="f-lbl">Título</label><input class="f-in" id="eTitle" placeholder="Ej: La Pregunta del Millón #1 — ¿Qué es el FOT?"></div>
+   <div style="display:flex;justify-content:flex-end;margin:-6px 0 2px">
+    <button class="btn" id="aiBtnMain" onclick="openAiPanel()" style="border-color:rgba(177,178,151,.4);color:#b1b297;font-size:8px;padding:4px 10px">✨ Generar con IA</button>
+   </div>
+   <div id="aiPanel" style="display:none;flex-direction:column;gap:8px;padding:10px;background:rgba(177,178,151,.06);border:1px solid rgba(177,178,151,.2)">
+    <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#b1b297">✨ GENERADOR DE CONTENIDO CON IA</div>
+    <div class="f-row"><label class="f-lbl">Briefing para la IA</label>
+     <textarea class="f-ta" id="aiBriefing" placeholder="Ej: Reel educativo sobre zonificación en Belgrano para developers. Tono directo y técnico. Pilar: Educación." style="min-height:52px"></textarea></div>
+    <button class="btn" onclick="runAI()" id="aiRunBtn" style="width:100%;padding:8px;border-color:rgba(177,178,151,.4);color:#b1b297;font-size:9px;font-weight:700;letter-spacing:2px">✨ Generar título, hook, copy y CTA</button>
+    <div id="aiStatus" style="font-size:11px;color:var(--muted);font-style:italic;display:none"></div>
+   </div>
    <div class="f-row"><label class="f-lbl">Hook</label><input class="f-in" id="eHook" placeholder='Ej: "Esta es la pregunta que me hacen todos los agentes nuevos."'></div>
    <div class="f-row"><label class="f-lbl">Caption / Copy</label><textarea class="f-ta" id="eCopy" placeholder="Caption completo listo para publicar..."></textarea></div>
    <div class="f-row"><label class="f-lbl">CTA</label>
     <div class="cw"><input class="f-in" id="eCta" placeholder="Ej: Guardá este video 📌" autocomplete="off" oninput="cOpen('eCta','dCta',optsCta)" onfocus="cOpen('eCta','dCta',optsCta)" onblur="cSched('dCta')"><div class="cdrop" id="dCta"></div></div></div>
    <div class="grid2">
-    <div class="f-row"><label class="f-lbl">Canal</label>
+    <div class="f-row"><label class="f-lbl">Plataforma</label>
+     <div class="cw"><input class="f-in" id="ePlat" placeholder="Instagram, YouTube, LinkedIn..." autocomplete="off" oninput="cOpen('ePlat','dPlat',optsPlat);updPlatPrev()" onfocus="cOpen('ePlat','dPlat',optsPlat)" onblur="cSched('dPlat');setTimeout(updPlatPrev,300)"><div class="cdrop" id="dPlat"></div></div>
+    <div class="pl-prev" id="platPrev" style="display:none"><div class="pl-prev-dot" id="platDot"></div><span id="platLbl" style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)"></span></div></div>
+    <div class="f-row"><label class="f-lbl">Canal / Formato de canal</label>
      <div class="cw"><input class="f-in" id="eChan" placeholder="📸 Instagram Reels..." autocomplete="off" oninput="cOpen('eChan','dChan',optsChan)" onfocus="cOpen('eChan','dChan',optsChan)" onblur="cSched('dChan')"><div class="cdrop" id="dChan"></div></div></div>
     <div class="f-row"><label class="f-lbl">Responsable</label>
      <select class="f-sel" id="eResp"><option value="">Sin asignar</option><option value="Vertice">Vértice</option><option value="Cliente">Cliente</option><option value="Compartido">Compartido</option></select></div>
@@ -333,6 +348,29 @@ const FMTS = [
 ];
 let activeFmts = new Set(FMTS.map(f=>f.key));
 function getFmt(k){ return FMTS.find(f=>f.key===k||f.label===k)||{key:'custom',label:k,color:'#5a7a82'}; }
+
+// ═══ PLATAFORMAS ══════════════════════════════════════════
+// Gestionable igual que Pilares y Etapas
+let PLATAFORMAS = [
+  {key:'instagram', name:'Instagram',  color:'#c13584', icon:'📸'},
+  {key:'youtube',   name:'YouTube',    color:'#c4262e', icon:'▶'},
+  {key:'linkedin',  name:'LinkedIn',   color:'#0077b5', icon:'💼'},
+  {key:'tiktok',    name:'TikTok',     color:'#010101', icon:'🎵'},
+];
+let activePlats = new Set(PLATAFORMAS.map(p=>p.key).concat(['']));
+function getPlat(k){ return PLATAFORMAS.find(p=>p.key===k||p.name===k)||null; }
+function getPlatByName(n){ return PLATAFORMAS.find(p=>p.name===n)||null; }
+
+// Canales sugeridos por plataforma
+function getChansByPlat(platKey){
+  const ch = {
+    instagram:['📸 Instagram Reels','📖 Instagram Stories','📸 Instagram Feed','📸 Instagram Collab'],
+    youtube:  ['▶ YouTube Long Form','▶ YouTube Shorts','▶ YouTube Mejores Momentos'],
+    linkedin: ['💼 LinkedIn Post','💼 LinkedIn Carrusel','💼 LinkedIn Artículo'],
+    tiktok:   ['🎵 TikTok Video','🎵 TikTok Duet'],
+  };
+  return ch[platKey]||[];
+}
 
 // ═══ MONTHS ═══════════════════════════════════════════════
 // 1 mayo 2026  = viernes → grilla Lun=0 → startDow=4
@@ -471,6 +509,25 @@ function updPilarPrev(){
   if(dot)dot.style.background=pl.color;
   if(lbl)lbl.textContent=pl.name;
 }
+function updPlatPrev(){
+  const val=document.getElementById('ePlat')?.value||'';
+  const row=document.getElementById('platPrev'),dot=document.getElementById('platDot'),lbl=document.getElementById('platLbl');
+  const pl=getPlatByName(val);
+  if(!val||!pl){if(row)row.style.display='none';
+    // Auto-suggest channels based on platform
+    return;
+  }
+  if(row)row.style.display='flex';
+  if(dot)dot.style.background=pl.color;
+  if(lbl)lbl.textContent=pl.icon+' '+pl.name;
+  // Auto-populate channel suggestions
+  const chanInp=document.getElementById('eChan');
+  if(chanInp&&!chanInp.value){
+    const suggestions=getChansByPlat(pl.key);
+    if(suggestions.length) chanInp.placeholder=suggestions[0];
+  }
+}
+function optsPlat(){return PLATAFORMAS.map(p=>p.name);}
 
 // ═══ FILTERS ══════════════════════════════════════════════
 function renderEtapaFilters(){
@@ -499,11 +556,25 @@ function renderFmtFilters(){
 }
 function togFmt(k){activeFmts.has(k)?activeFmts.delete(k):activeFmts.add(k);renderFmtFilters();renderAll()}
 
+// PLATFORM FILTERS
+function renderPlatFilters(){
+  const c=document.getElementById('platFilters');if(!c)return;
+  // Always include "Sin plataforma" option
+  const all=[{key:'',name:'Sin asignar',color:'#5a7a82',icon:'—'},...PLATAFORMAS];
+  c.innerHTML=all.map(pl=>{
+    const on=activePlats.has(pl.key);
+    return`<button class="ff ${on?'on':''}" style="color:${pl.color};border-color:${on?pl.color:'var(--line)'};${on?`box-shadow:0 0 0 1px ${pl.color}22`:''}" onclick="togPlat('${pl.key}')">${pl.icon||'—'} ${pl.name}</button>`;
+  }).join('');
+}
+function togPlat(k){activePlats.has(k)?activePlats.delete(k):activePlats.add(k);renderPlatFilters();renderAll()}
+
 function getVisible(){
   return posts.filter(p=>{
     if(activeEtapa){const m=MONTHS.find(m=>p.date.startsWith(m.key));if(!m||m.etapa!==activeEtapa)return false;}
     const fk=getFmt(p.fmt).key||p.fmt;if(!activeFmts.has(fk)&&!activeFmts.has(p.fmt))return false;
     if(!activePilares.has(p.pilar||'story'))return false;
+    // Filter by platform ('' = no platform assigned)
+    if(!activePlats.has(p.plat||''))return false;
     return true;
   });
 }
@@ -516,11 +587,13 @@ function renderStats(){
   const pauta=v.filter(p=>p.pauta?.on).length;
   const usd=v.filter(p=>p.pauta?.on).reduce((s,p)=>s+(parseFloat(p.pauta?.usd)||0),0);
   const byPilar=PILARES.map(pl=>({pl,n:v.filter(p=>p.pilar===pl.key).length})).filter(x=>x.n>0);
+  const byPlat=PLATAFORMAS.map(pl=>({pl,n:v.filter(p=>p.plat===pl.key).length})).filter(x=>x.n>0);
   document.getElementById('statsBar').innerHTML=`
     <div class="stat"><span class="stat-n">${v.length}</span><span class="stat-l">piezas</span></div>
     <div class="stat"><span class="stat-n" style="color:#22c55e">${done}</span><span class="stat-l">publicadas</span></div>
     <div class="stat"><span class="stat-n" style="color:#f59e0b">${prog}</span><span class="stat-l">en producción</span></div>
     ${byPilar.map(x=>`<div class="stat"><span class="stat-n" style="color:${x.pl.color}">${x.n}</span><span class="stat-l">${x.pl.name}</span></div>`).join('')}
+    ${byPlat.map(x=>`<div class="stat"><span class="stat-n" style="color:${x.pl.color}">${x.n}</span><span class="stat-l">${x.pl.icon} ${x.pl.name}</span></div>`).join('')}
     ${pauta>0?`<div class="stat"><span class="stat-n" style="color:var(--sage)">$${usd.toLocaleString('en-US')}</span><span class="stat-l">USD pauta</span></div>`:''}`;
 }
 
@@ -588,15 +661,18 @@ function renderCalWrap(){
 function renderChip(p){
   const pl=getPilar(p.pilar||'story');
   const f=getFmt(p.fmt);
+  const platObj=getPlat(p.plat||'');
   const bg=hex2rgba(pl.color,.12);
   const ap=p.approval==='ok'?'✓':p.approval==='changes'?'✗':p.approval==='review'?'○':'';
   const done=p.status==='done';
+  const platBadge=platObj?`<span style="font-size:7px;padding:1px 4px;background:${platObj.color}22;color:${platObj.color};font-weight:700;border-radius:1px;margin-left:2px">${platObj.icon} ${platObj.name}</span>`:'';
   return`<div class="chip${done?' done':''}" draggable="true"
     style="border-left-color:${pl.color};background:${bg}"
     ondragstart="dragId='${p.id}'"
     onclick="event.stopPropagation();openEdit('${p.id}')">
     <div class="chip-row">
       <span class="chip-fmt" style="color:${pl.color}">${f.label}</span>
+      ${platBadge}
       ${ap?`<span class="chip-ap" style="color:${p.approval==='ok'?'#16a34a':p.approval==='changes'?'#dc2626':'#f59e0b'}">${ap}</span>`:''}
       ${p.pauta?.on?`<span class="chip-pauta">💰</span>`:''}
     </div>
@@ -639,6 +715,8 @@ function openEdit(id){
   document.getElementById('eResp').value=p.responsable||'';
   document.getElementById('eStatus').value=p.status||'pending';
   document.getElementById('eApproval').value=p.approval||'none';
+  document.getElementById('ePlat').value=getPlat(p.plat||'')?.name||'';
+  updPlatPrev();
   document.getElementById('ePhase').value=p.etapa||'';
   document.getElementById('eLink').value=p.link||'';
   document.getElementById('eNotes').value=p.notes||'';
@@ -663,9 +741,12 @@ function savePost(){
   const pl=getPilarByName(pName)||getPilar('story');
   const sLabel=document.getElementById('eSerie').value;
   const sr=SERIES.find(s=>s.name===sLabel);
+  const platName=document.getElementById('ePlat').value;
+  const platObj=getPlatByName(platName);
   const pon=document.getElementById('ePautaOn')?.checked;
   const np={
     id:editId||('u_'+Date.now()),
+    plat:platObj?.key||'',
     date:document.getElementById('eDate').value,
     fmt:getFmt(fLabel).key||fLabel,
     pilar:pl.key,
@@ -692,13 +773,40 @@ function delPost(){if(!editId)return;if(!confirm('¿Eliminar esta pieza?'))retur
 // ═══ MANAGERS ═════════════════════════════════════════════
 function openMgr(t){
   if(t==='pilar'){renderPilarList();document.getElementById('pilarMgr').classList.add('open');}
+  else if(t==='plat'){renderPlatList();document.getElementById('platMgr').classList.add('open');}
   else{renderEtapaList();document.getElementById('etapaMgr').classList.add('open');}
 }
 function closeMgr(t){
   if(t==='pilar'){document.getElementById('pilarMgr').classList.remove('open');activePilares=new Set(PILARES.map(p=>p.key));}
+  else if(t==='plat'){document.getElementById('platMgr').classList.remove('open');activePlats=new Set(PLATAFORMAS.map(p=>p.key).concat(['']));}
   else document.getElementById('etapaMgr').classList.remove('open');
   renderAll();
 }
+
+// PLATFORM MANAGER FUNCTIONS
+function renderPlatList(){
+  const el=document.getElementById('platList');if(!el)return;
+  el.innerHTML=PLATAFORMAS.map((p,i)=>`
+    <div class="ph-row">
+      <div class="ph-dot" style="background:${p.color}"></div>
+      <input type="color" class="ph-ci" value="${p.color}" onchange="PLATAFORMAS[${i}].color=this.value;renderPlatList()">
+      <input class="ph-ni" value="${p.name}" oninput="PLATAFORMAS[${i}].name=this.value">
+      <span style="font-size:13px;margin:0 4px">${p.icon}</span>
+      <input class="ph-ni" value="${p.icon}" oninput="PLATAFORMAS[${i}].icon=this.value" style="width:40px;flex:0">
+      <button class="ph-del" onclick="delPlat(${i})">✕</button>
+    </div>`).join('');
+}
+function addPlat(){
+  const n=document.getElementById('newPlatName')?.value.trim();
+  const c=document.getElementById('newPlatColor')?.value||'#007f88';
+  if(!n)return;
+  const k=n.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  if(PLATAFORMAS.find(p=>p.key===k)){alert('Ya existe una plataforma con ese nombre.');return;}
+  PLATAFORMAS.push({key:k,name:n,color:c,icon:'📱'});
+  activePlats.add(k);
+  document.getElementById('newPlatName').value='';renderPlatList();
+}
+function delPlat(i){if(PLATAFORMAS.length<=1){alert('Necesitás al menos una plataforma.');return;}const k=PLATAFORMAS[i].key;PLATAFORMAS.splice(i,1);activePlats.delete(k);renderPlatList()}
 function renderPilarList(){
   document.getElementById('pilarList').innerHTML=PILARES.map((p,i)=>`
     <div class="ph-row">
@@ -769,7 +877,7 @@ function doAddMonth(){
 function delMonth(k){if(!confirm(`¿Quitar ${k} del calendario?`))return;MONTHS=MONTHS.filter(m=>m.key!==k);save();renderAll()}
 
 // ═══ RENDER ALL ═══════════════════════════════════════════
-function renderAll(){renderEtapaFilters();renderPilarFilters();renderFmtFilters();renderStats();renderNav();renderCalWrap()}
+function renderAll(){renderEtapaFilters();renderPilarFilters();renderFmtFilters();renderPlatFilters();renderStats();renderNav();renderCalWrap()}
 
 // ═══ EXPORT CSV ═══════════════════════════════════════════
 function exportCSV(){
@@ -794,6 +902,93 @@ function printCal(){
   document.body.appendChild(t);
 }
 
+
+// ═══ IA — GENERADOR DE CONTENIDO ══════════════════════════
+// Usa la API de Claude (claude-sonnet-4-6) para generar
+// título, hook, copy y CTA basado en un briefing
+
+function openAiPanel(){
+  const p=document.getElementById('aiPanel');
+  const btn=document.getElementById('aiBtnMain');
+  if(!p)return;
+  const isOpen=p.style.display!=='none'&&p.style.display!=='';
+  p.style.display=isOpen?'none':'flex';
+  if(btn)btn.style.color=isOpen?'#b1b297':'#00a8b4';
+}
+
+async function runAI(){
+  const briefing=document.getElementById('aiBriefing')?.value.trim();
+  if(!briefing){alert('Escribí un briefing primero.');return;}
+  const btn=document.getElementById('aiRunBtn');
+  const status=document.getElementById('aiStatus');
+  if(btn){btn.textContent='✨ Generando...';btn.disabled=true;}
+  if(status){status.textContent='Conectando con Claude...';status.style.display='block';}
+
+  // Context about FOT Libre for better results
+  const pilarVal=document.getElementById('ePilar')?.value||'';
+  const serieVal=document.getElementById('eSerie')?.value||'';
+  const fmtVal=document.getElementById('eFmt')?.value||'';
+  const platVal=document.getElementById('ePlat')?.value||'';
+
+  const systemPrompt=`Sos un experto en marketing de contenidos para el sector inmobiliario B2B argentino.
+Trabajás para FOT Libre, la primera agencia Land Finder de Argentina especializada en terrenos comerciales CABA y GBA.
+La audiencia son agentes inmobiliarios, developers y arquitectos.
+Generás contenido en español rioplatense, directo y técnico sin ser aburrido.
+Siempre respondés SOLO con un JSON válido, sin markdown, sin texto extra.`;
+
+  const userPrompt=`Generá el contenido para esta pieza de FOT Libre:
+
+Briefing: ${briefing}
+Pilar editorial: ${pilarVal||'No especificado'}
+Serie: ${serieVal||'No especificado'}
+Formato: ${fmtVal||'No especificado'}
+Plataforma: ${platVal||'No especificado'}
+
+Respondé SOLO con este JSON (sin markdown, sin backticks):
+{
+  "titulo": "Título concreto de la pieza (máximo 80 caracteres)",
+  "hook": "Hook de apertura de 1 sola frase (máximo 100 caracteres, entre comillas, que genere curiosidad o urgencia)",
+  "copy": "Caption/copy completo listo para publicar (2-4 párrafos cortos, en español rioplatense, con saltos de línea \n entre párrafos)",
+  "cta": "Call to action final corto (máximo 60 caracteres, con emoji)"
+}`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system:systemPrompt,
+        messages:[{role:'user',content:userPrompt}],
+      }),
+    });
+    const data=await resp.json();
+    const text=data.content?.[0]?.text||'';
+    if(status)status.textContent='Procesando respuesta...';
+    // Parse JSON
+    const clean=text.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    // Fill in form fields
+    if(parsed.titulo){const el=document.getElementById('eTitle');if(el)el.value=parsed.titulo;}
+    if(parsed.hook){const el=document.getElementById('eHook');if(el)el.value=parsed.hook;}
+    if(parsed.copy){const el=document.getElementById('eCopy');if(el)el.value=parsed.copy;}
+    if(parsed.cta){const el=document.getElementById('eCta');if(el)el.value=parsed.cta;}
+    if(status){status.textContent='✓ Contenido generado — revisá y ajustá antes de guardar.';status.style.color='#22c55e';}
+    // Close AI panel
+    setTimeout(()=>{
+      const p=document.getElementById('aiPanel');
+      if(p)p.style.display='none';
+      const bt=document.getElementById('aiBtnMain');
+      if(bt)bt.style.color='#b1b297';
+    },1500);
+  }catch(e){
+    if(status){status.textContent='Error: '+e.message+'. Revisá tu conexión.';status.style.color='#f87171';}
+    console.error('AI error:',e);
+  }finally{
+    if(btn){btn.textContent='✨ Generar título, hook, copy y CTA';btn.disabled=false;}
+  }
+}
 // ═══ GOOGLE SHEETS SYNC ═══════════════════════════════════
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbwkItSBxtfqys0RcZk431wWBPGgcOzz_3B1-dtceV3CJ04ZvRVtQ_bAaNcXW0CZiVDm/exec";
 
@@ -823,6 +1018,7 @@ async function save(){
   // guardar config local siempre (pilares, etapas, meses — no van al sheet)
   try{
     localStorage.setItem('fl_pilares_v4',JSON.stringify(PILARES));
+    localStorage.setItem('fl_plats_v4',JSON.stringify(PLATAFORMAS));
     localStorage.setItem('fl_etapas_v4',JSON.stringify(ETAPAS));
     localStorage.setItem('fl_months_v4',JSON.stringify(MONTHS));
   }catch(e){}
@@ -851,6 +1047,8 @@ async function load(){
   try{
     const pl=localStorage.getItem('fl_pilares_v4');
     if(pl){PILARES.length=0;JSON.parse(pl).forEach(p=>PILARES.push(p));activePilares=new Set(PILARES.map(p=>p.key));}
+    const pla=localStorage.getItem('fl_plats_v4');
+    if(pla){PLATAFORMAS.length=0;JSON.parse(pla).forEach(p=>PLATAFORMAS.push(p));activePlats=new Set(PLATAFORMAS.map(p=>p.key).concat(['']));}
     const et=localStorage.getItem('fl_etapas_v4');
     if(et){ETAPAS.length=0;JSON.parse(et).forEach(e=>ETAPAS.push(e));}
     const mo=localStorage.getItem('fl_months_v4');
@@ -900,7 +1098,7 @@ async function reset(){
   renderAll();
 }
 
-document.addEventListener('DOMContentLoaded',()=>{FMTS.forEach(f=>activeFmts.add(f.key));load();});
+document.addEventListener('DOMContentLoaded',()=>{FMTS.forEach(f=>activeFmts.add(f.key));PLATAFORMAS.forEach(p=>activePlats.add(p.key));load();});
 
 
 // ═══ NORMALIZAR POSTS DEL SHEET ═══════════════════════════
@@ -1092,6 +1290,20 @@ function cfgDisconnect(){
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(m=>m.classList.remove('open'));});
 </script>
+
+
+<!-- PLATFORM MANAGER -->
+<div class="overlay" id="platMgr" onclick="if(event.target===this)closeMgr('plat')">
+ <div class="mbox" style="max-width:460px">
+  <div class="mhdr"><span class="mhdr-t">📡 Gestionar Plataformas</span><button class="mcls" onclick="closeMgr('plat')">✕</button></div>
+  <div class="mbody">
+   <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Cada pieza puede pertenecer a una plataforma. Podés agregar, renombrar y cambiar el color.</p>
+   <div id="platList"></div>
+   <div class="ph-add"><input class="f-in" id="newPlatName" placeholder="Nombre de la plataforma" style="flex:1"><input type="color" id="newPlatColor" value="#00a8b4" style="width:36px;height:36px;border:none;cursor:pointer;background:none"><button class="btn btn-teal" onclick="addPlat()">+ Agregar</button></div>
+  </div>
+  <div class="mftr"><button class="btn btn-teal" onclick="closeMgr('plat')">Cerrar</button></div>
+ </div>
+</div>
 
 <button onclick="reset()" style="position:fixed;bottom:12px;right:12px;z-index:999;padding:6px 12px;background:var(--darker);border:1px solid var(--line);color:var(--muted);font-size:11px;cursor:pointer;font-family:'Archivo',sans-serif" title="Restaurar datos originales">↺ Reset</button>
 
